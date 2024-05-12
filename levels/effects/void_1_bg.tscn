@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://c67dvisjejmey"]
+
+[ext_resource type="Script" path="res://levels/effects/void_bg_scroll.gd" id="1_cxkt5"]
+[ext_resource type="Texture2D" uid="uid://crnrj4oypltow" path="res://sprite/bg/Starfield_08-512x512.png" id="1_gvd80"]
+[ext_resource type="Texture2D" uid="uid://i3t8yrgfycpq" path="res://sprite/bg/star_mask.png" id="3_hlvtf"]
+
+[node name="InfiniteVoidBG" type="ParallaxBackground"]
+script = ExtResource("1_cxkt5")
+
+[node name="SpaceLayer" type="ParallaxLayer" parent="."]
+unique_name_in_owner = true
+motion_mirroring = Vector2(0, 512)
+
+[node name="TextureRect" type="TextureRect" parent="SpaceLayer"]
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 736.0
+offset_bottom = 1008.0
+texture = ExtResource("1_gvd80")
+stretch_mode = 1
+
+[node name="StarLayer" type="ParallaxLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+motion_mirroring = Vector2(0, 512)
+
+[node name="TextureRect" type="TextureRect" parent="StarLayer"]
+offset_left = -16.0
+offset_top = -48.0
+offset_right = 736.0
+offset_bottom = 1008.0
+texture = ExtResource("3_hlvtf")
+stretch_mode = 1

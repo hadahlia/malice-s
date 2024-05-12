@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhsqtqwuv8o8i"]
+
+[ext_resource type="Script" path="res://entity/ika-ship/moon_blade.gd" id="1_pck7m"]
+[ext_resource type="Texture2D" uid="uid://q4nenyop4p8a" path="res://sprite/fx/01.png" id="2_25s55"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i02rw"]
+size = Vector2(24, 13)
+
+[node name="MoonShot" type="Area2D"]
+collision_layer = 6
+collision_mask = 2
+script = ExtResource("1_pck7m")
+
+[node name="bullet_box" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_i02rw")
+
+[node name="bullet_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_25s55")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

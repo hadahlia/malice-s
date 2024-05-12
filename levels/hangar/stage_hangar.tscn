@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bn20l7cjclmh6"]
+
+[node name="StageHangar" type="Node2D"]
+
+[node name="ReferenceRect" type="ReferenceRect" parent="."]
+offset_right = 728.0
+offset_bottom = 960.0
+
+[node name="ReferenceRect2" type="ReferenceRect" parent="."]
+offset_top = -960.0
+offset_right = 728.0
