@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var Bullet : PackedScene
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
+#var bullet_fade : PackedScene = preload("res://levels/effects/hit_fade.tscn")
 
 @onready var viewSpace := get_viewport_rect().size
 var score : int = 0

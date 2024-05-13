@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var health : int = 30
+@export var health : int = 9999
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 

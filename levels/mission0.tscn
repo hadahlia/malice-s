@@ -24,3 +24,4 @@ scale = Vector2(0.5, 0.5)
 [node name="StageHangar" parent="." instance=ExtResource("4_rwf17")]
 
 [node name="Margin_UI" type="CanvasLayer" parent="."]
+visible = false
