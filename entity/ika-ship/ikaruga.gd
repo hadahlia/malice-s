@@ -5,12 +5,14 @@ extends CharacterBody2D
 @export var acceleration : float = 0.1
 
 @export var Bullet : PackedScene
-var explosion : PackedScene = preload("res://levels/effects/explosion_f.tscn")
+
+var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 
 @onready var viewSpace := get_viewport_rect().size
 var score : int = 0
 
 var _canFire : bool = true
+var _polarized : bool
 
 signal hit
 
@@ -31,7 +33,7 @@ func get_input():
 		input.y -= 1
 	return input
 
-func fire():
+func b_fire():
 	var b1 = Bullet.instantiate()
 	var b2 = Bullet.instantiate()
 	var b3 = Bullet.instantiate()
@@ -47,7 +49,9 @@ func fire():
 
 func _process(delta):
 	if Input.is_action_pressed("fire") and _canFire:
-		fire()
+		b_fire()
+	if Input.is_action_just_pressed("polarity_switch"):
+		!_polarized
 	
 
 func _physics_process(delta):

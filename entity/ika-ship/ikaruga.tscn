@@ -5,8 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://8s1c2upwx74q" path="res://sprite/ships/v_strider.png" id="3_fwh7l"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_237g1"]
+radius = 10.7056
 
 [node name="Ikaruga" type="CharacterBody2D"]
+scale = Vector2(0.759999, 0.759999)
 collision_mask = 2
 script = ExtResource("1_daaj3")
 speed = 460
@@ -15,7 +17,7 @@ acceleration = 1.0
 Bullet = ExtResource("2_wqn08")
 
 [node name="collisionshape" type="CollisionShape2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(1.42105, 1.42105)
 shape = SubResource("CircleShape2D_237g1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -48,6 +50,10 @@ monitorable = false
 [node name="killbox" type="CollisionShape2D" parent="NexusCore"]
 scale = Vector2(1.48, 1.48)
 shape = SubResource("CircleShape2D_237g1")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="timeout" from="FireCooldown" to="." method="_on_fire_cooldown_timeout"]
 [connection signal="area_entered" from="NexusCore" to="." method="_on_nexus_core_area_entered"]

@@ -14,6 +14,7 @@ position = Vector2(3, 0)
 anchor_mode = 0
 
 [node name="Ikaruga" parent="Cammy" instance=ExtResource("1_krs4o")]
+z_index = 1
 position = Vector2(349, 864)
 
 [node name="EnBuzal" parent="." instance=ExtResource("3_ye1s8")]
@@ -21,3 +22,5 @@ position = Vector2(352, 240)
 scale = Vector2(0.5, 0.5)
 
 [node name="StageHangar" parent="." instance=ExtResource("4_rwf17")]
+
+[node name="Margin_UI" type="CanvasLayer" parent="."]

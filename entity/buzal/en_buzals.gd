@@ -1,7 +1,10 @@
 extends Area2D
 
-var explosion : PackedScene = preload("res://levels/effects/explosion_f.tscn")
+@export var health : int = 30
 
+var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
+
+signal buzal_hit
 signal slain
 
 # Called when the node enters the scene tree for the first time.
@@ -23,5 +26,13 @@ func kill():
 #func _on_body_entered(body):
 	#kill()
 
+func take_damage(amount):
+	var old_health = health
+	health -= amount
+	buzal_hit.emit(old_health, health)
+	if health <= 0:
+		health = 0
+		kill()
+
 func _on_area_entered(area):
-	kill()
+	take_damage(area.damage)
