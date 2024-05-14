@@ -9,8 +9,9 @@ size = Vector2(24, 13)
 
 [node name="MoonShot" type="Area2D"]
 collision_layer = 6
-collision_mask = 2
+collision_mask = 18
 script = ExtResource("1_pck7m")
+speed = 1200.0
 
 [node name="bullet_box" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_i02rw")
