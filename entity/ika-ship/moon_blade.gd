@@ -16,9 +16,9 @@ func _physics_process(delta: float) -> void:
 	var distance := speed * delta
 	position += transform.x * speed * delta
 	
-	_travelled_dist += distance
-	if _travelled_dist > max_range:
-		queue_free()
+	#_travelled_dist += distance
+	#if _travelled_dist > max_range:
+		#queue_free()
 	#if transform.distance_to()player.global_transform) > 5000:
 		#queue_free()
 

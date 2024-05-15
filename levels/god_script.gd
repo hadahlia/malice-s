@@ -27,7 +27,7 @@ func spawn_doggy():
 	ikaruga = doggy
 
 func _vibe_check():
-	print("the vibe check has counted: ", lives, "lives")
+	print("the vibe check has counted: ", lives," lives")
 	if lives < 0:
 		pass
 	else:

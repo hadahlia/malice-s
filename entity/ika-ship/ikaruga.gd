@@ -11,8 +11,9 @@ var A_Bullet : PackedScene = load("res://entity/ika-ship/moon_slice_a.tscn")
 
 @onready var r_sprite = $SpriteA
 @onready var b_sprite = $SpriteB
+@onready var fire_sfx = $FiringSound
 
-@onready var viewSpace := get_viewport_rect().size
+#@onready var viewSpace := get_viewport_rect().size
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 #var bullet_fade : PackedScene = preload("res://levels/effects/hit_fade.tscn")
@@ -74,6 +75,7 @@ func b_fire():
 		spawn_red_s()
 	else:
 		spawn_blue_s()
+	fire_sfx.play()
 	#await(get_tree()).create_timer(0.5, true)
 	$FireCooldown.start()
 	_canFire = false

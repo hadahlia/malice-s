@@ -42,7 +42,7 @@ folder_colors={
 "res://addons/BulletUpHell/SpawnPatterns/": "purple",
 "res://audio/": "yellow",
 "res://entity/": "pink",
-"res://entity/buzal/": "blue",
+"res://entity/enemy/buzal/": "blue",
 "res://levels/": "teal",
 "res://sprite/": "orange"
 }

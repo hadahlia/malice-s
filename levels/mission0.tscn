@@ -1,18 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=10 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
-[ext_resource type="PackedScene" uid="uid://b6jfexitxfv2q" path="res://entity/buzal/en_buzals.tscn" id="3_ye1s8"]
+[ext_resource type="PackedScene" uid="uid://b6jfexitxfv2q" path="res://entity/enemy/buzal/en_buzals.tscn" id="3_ye1s8"]
 [ext_resource type="PackedScene" uid="uid://bn20l7cjclmh6" path="res://levels/hangar/stage_hangar.tscn" id="4_rwf17"]
+[ext_resource type="PackedScene" uid="uid://58uwhr5waftp" path="res://levels/en_spawner.tscn" id="5_yfa6y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m6u7c"]
-size = Vector2(752, 10)
+size = Vector2(752, 31.892)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iw388"]
-size = Vector2(752, 7.89037)
+size = Vector2(936, 135.891)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppn25"]
-size = Vector2(18, 960)
+size = Vector2(113, 960)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_85e35"]
 size = Vector2(840, 1200)
@@ -44,20 +45,20 @@ position = Vector2(472, 0)
 collision_layer = 17
 
 [node name="BFloor" type="CollisionShape2D" parent="PlayableBound"]
-position = Vector2(360, 957.108)
+position = Vector2(360, 968)
 shape = SubResource("RectangleShape2D_m6u7c")
 
 [node name="BCeiling" type="CollisionShape2D" parent="PlayableBound"]
-position = Vector2(360, 3.94614)
+position = Vector2(376, -40)
 rotation = 3.14159
 shape = SubResource("RectangleShape2D_iw388")
 
 [node name="BWallR" type="CollisionShape2D" parent="PlayableBound"]
-position = Vector2(744, 480)
+position = Vector2(792, 480)
 shape = SubResource("RectangleShape2D_ppn25")
 
 [node name="BWallL" type="CollisionShape2D" parent="PlayableBound"]
-position = Vector2(-24, 480)
+position = Vector2(-72, 472)
 shape = SubResource("RectangleShape2D_ppn25")
 
 [node name="WakeZone" type="Area2D" parent="."]
@@ -75,6 +76,8 @@ position = Vector2(832, 832)
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="EnSpawner" parent="." instance=ExtResource("5_yfa6y")]
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 
