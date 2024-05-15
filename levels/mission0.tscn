@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=9 format=3 uid="uid://cqnj5lbqtyprd"]
 
-[ext_resource type="PackedScene" uid="uid://8ughnu5tewm8" path="res://entity/ika-ship/ikaruga.tscn" id="1_krs4o"]
+[ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
 [ext_resource type="PackedScene" uid="uid://b6jfexitxfv2q" path="res://entity/buzal/en_buzals.tscn" id="3_ye1s8"]
 [ext_resource type="PackedScene" uid="uid://bn20l7cjclmh6" path="res://levels/hangar/stage_hangar.tscn" id="4_rwf17"]
@@ -14,7 +14,11 @@ size = Vector2(752, 7.89037)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppn25"]
 size = Vector2(18, 960)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_85e35"]
+size = Vector2(840, 1200)
+
 [node name="Mission0" type="Node2D"]
+script = ExtResource("1_3n2wy")
 
 [node name="InfiniteVoidBG" parent="." instance=ExtResource("1_nne0f")]
 
@@ -26,18 +30,11 @@ position = Vector2(3, 0)
 anchor_mode = 0
 zoom = Vector2(0.75, 0.75)
 
-[node name="Ikaruga" parent="Cammy" instance=ExtResource("1_krs4o")]
-z_index = 1
-position = Vector2(821, 864)
-speed = 540
-shot_limit = 4
-
 [node name="EnBuzal" parent="." instance=ExtResource("3_ye1s8")]
 position = Vector2(824, 240)
 scale = Vector2(0.5, 0.5)
 
 [node name="StageHangar" parent="." instance=ExtResource("4_rwf17")]
-visible = false
 
 [node name="Margin_UI" type="CanvasLayer" parent="."]
 visible = false
@@ -62,5 +59,23 @@ shape = SubResource("RectangleShape2D_ppn25")
 [node name="BWallL" type="CollisionShape2D" parent="PlayableBound"]
 position = Vector2(-24, 480)
 shape = SubResource("RectangleShape2D_ppn25")
+
+[node name="WakeZone" type="Area2D" parent="."]
+visible = false
+collision_layer = 0
+collision_mask = 2
+
+[node name="WakeShape" type="CollisionShape2D" parent="WakeZone"]
+position = Vector2(836, 456)
+shape = SubResource("RectangleShape2D_85e35")
+
+[node name="PlrSpawnPos" type="Marker2D" parent="."]
+position = Vector2(832, 832)
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 
 [editable path="InfiniteVoidBG"]

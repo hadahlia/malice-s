@@ -1,12 +1,16 @@
 extends CharacterBody2D
 
 @export var speed : int = 200
-@export var friction : float = 0.01
-@export var acceleration : float = 0.1
-@export var shot_limit : int = 5
+#@export var friction : float = 0.01
+#@export var acceleration : float = 0.1
+@export var shot_limit : int = 4
 
 
 @export var Bullet : PackedScene = load("res://entity/ika-ship/moon_slice.tscn")
+var A_Bullet : PackedScene = load("res://entity/ika-ship/moon_slice_a.tscn")
+
+@onready var r_sprite = $SpriteA
+@onready var b_sprite = $SpriteB
 
 @onready var viewSpace := get_viewport_rect().size
 
@@ -16,13 +20,16 @@ var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 var shot_count : int
 var score : int = 0
 
-var _canFire : bool = true
+var _canFire : bool
 var _polarized : bool
 
 signal hit
 
-#func _ready():
-	#
+func _ready():
+	_canFire = true
+	_polarized = false
+	b_sprite.show()
+	r_sprite.hide()
 
 
 
@@ -38,35 +45,64 @@ func get_input():
 		input.y -= 1
 	return input
 
-func b_fire():
+func spawn_blue_s():
 	var b1 = Bullet.instantiate()
 	var b2 = Bullet.instantiate()
 	var b3 = Bullet.instantiate()
 	b1.bullet_freed.connect(_on_bullet_freed)
-	owner.add_child(b1)
-	owner.add_child(b2)
-	owner.add_child(b3)
+	get_parent().add_child(b1)
+	get_parent().add_child(b2)
+	get_parent().add_child(b3)
 	b1.transform = $Gun0.global_transform
 	b2.transform = $Gun1.global_transform
 	b3.transform = $Gun2.global_transform
+
+func spawn_red_s():
+	var c1 = A_Bullet.instantiate()
+	var c2 = A_Bullet.instantiate()
+	var c3 = A_Bullet.instantiate()
+	get_parent().add_child(c1)
+	get_parent().add_child(c2)
+	get_parent().add_child(c3)
+	c1.bullet_freed.connect(_on_bullet_freed)
+	c1.transform = $Gun0.global_transform
+	c2.transform = $Gun1.global_transform
+	c3.transform = $Gun2.global_transform
+
+func b_fire():
+	if _polarized:
+		spawn_red_s()
+	else:
+		spawn_blue_s()
 	#await(get_tree()).create_timer(0.5, true)
 	$FireCooldown.start()
 	_canFire = false
 	shot_count += 1
 
+func _polarization():
+	$FireCooldown.start()
+	_polarized = !_polarized
+	if _polarized:
+		b_sprite.hide()
+		r_sprite.show()
+	else:
+		r_sprite.hide()
+		b_sprite.show()
+
 func _process(delta):
 	if Input.is_action_pressed("fire") and _canFire and shot_count < shot_limit:
 		b_fire()
+	#elif Input.is_action_pressed("fire") and _canFire and shot_count < shot_limit and _polarized:
+		#b_fire()
 	if Input.is_action_just_pressed("polarity_switch"):
-		!_polarized
-	
+		_polarization()
 
 func _physics_process(delta):
 	var direction = get_input()
 	if direction.length() > 0:
-		velocity = velocity.lerp(direction.normalized() * speed, acceleration)
+		velocity = direction.normalized() * speed
 	else:
-		velocity = velocity.lerp(Vector2.ZERO, friction)
+		velocity = Vector2.ZERO
 	move_and_slide()
 	
 	
@@ -78,6 +114,7 @@ func _on_fire_cooldown_timeout():
 	_canFire = true
 
 func death():
+	_canFire = false
 	var explosion_instance = explosion.instantiate() as Node2D
 	explosion_instance.global_position = global_position
 	get_parent().add_child(explosion_instance)
