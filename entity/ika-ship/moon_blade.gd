@@ -6,6 +6,10 @@ extends Area2D
 
 @onready var player := load("res://entity/ika-ship/ikaruga.tscn")
 
+#@onready var short_sprite := $bullet_sprite
+#@onready var long_sprite := $bullet_long
+@onready var spritesheet := $bullet_sprites
+
 var _travelled_dist = 0.0
 
 var bullet_fade : PackedScene = load("res://levels/effects/hit_fade.tscn")

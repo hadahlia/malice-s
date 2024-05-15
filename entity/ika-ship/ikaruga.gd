@@ -3,11 +3,15 @@ extends CharacterBody2D
 @export var speed : int = 200
 #@export var friction : float = 0.01
 #@export var acceleration : float = 0.1
-@export var shot_limit : int = 4
+@export var shot_limit : int = 3
 
 
 @export var Bullet : PackedScene = load("res://entity/ika-ship/moon_slice.tscn")
+@export var long_b_bullet : PackedScene
+@export var long_r_bullet : PackedScene
 var A_Bullet : PackedScene = load("res://entity/ika-ship/moon_slice_a.tscn")
+
+#var long_blue := load()
 
 @onready var r_sprite = $SpriteA
 @onready var b_sprite = $SpriteB
@@ -50,6 +54,7 @@ func spawn_blue_s():
 	var b1 = Bullet.instantiate()
 	var b2 = Bullet.instantiate()
 	var b3 = Bullet.instantiate()
+	#b1.animation = "short"
 	b1.bullet_freed.connect(_on_bullet_freed)
 	get_parent().add_child(b1)
 	get_parent().add_child(b2)
@@ -57,6 +62,19 @@ func spawn_blue_s():
 	b1.transform = $Gun0.global_transform
 	b2.transform = $Gun1.global_transform
 	b3.transform = $Gun2.global_transform
+
+func spawn_blue_long():
+	var l1 = long_b_bullet.instantiate()
+	#l1.animation = "long"
+	#l1.short_sprite.hide()
+	#l1.long_sprite.show()
+	var l2 = long_b_bullet.instantiate()
+	#l2.short_sprite.hide()
+	#l2.long_sprite.show()
+	get_parent().add_child(l1)
+	get_parent().add_child(l2)
+	l1.transform = $LGun.global_transform
+	l2.transform = $RGun.global_transform
 
 func spawn_red_s():
 	var c1 = A_Bullet.instantiate()
@@ -70,11 +88,26 @@ func spawn_red_s():
 	c2.transform = $Gun1.global_transform
 	c3.transform = $Gun2.global_transform
 
+func spawn_red_long():
+	var l1 = long_r_bullet.instantiate()
+	#l1.animation = "long"
+	#l1.short_sprite.hide()
+	#l1.long_sprite.show()
+	var l2 = long_r_bullet.instantiate()
+	#l2.short_sprite.hide()
+	#l2.long_sprite.show()
+	get_parent().add_child(l1)
+	get_parent().add_child(l2)
+	l1.transform = $LGun.global_transform
+	l2.transform = $RGun.global_transform
+
 func b_fire():
 	if _polarized:
 		spawn_red_s()
+		spawn_red_long()
 	else:
 		spawn_blue_s()
+		spawn_blue_long()
 	fire_sfx.play()
 	#await(get_tree()).create_timer(0.5, true)
 	$FireCooldown.start()

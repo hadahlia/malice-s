@@ -108,6 +108,7 @@ polarity_switch={
 2d_physics/layer_2="ENEMY"
 2d_physics/layer_3="PROJECTILE"
 2d_physics/layer_5="WORLD"
+2d_physics/layer_6="EN_PROJECTILE"
 
 [physics]
 

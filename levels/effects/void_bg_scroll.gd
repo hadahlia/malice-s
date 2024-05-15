@@ -5,5 +5,5 @@ extends ParallaxBackground
 
 
 func _process(delta: float) -> void:
-	space_layer.motion_offset.y += 12 * delta
+	space_layer.motion_offset.y += 60 * delta
 	#star_layer.motion_offset.y += 18 * delta
