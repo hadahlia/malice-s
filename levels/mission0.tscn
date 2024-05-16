@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=9 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
@@ -13,6 +13,9 @@ size = Vector2(936, 135.891)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppn25"]
 size = Vector2(113, 960)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l1qxv"]
+size = Vector2(1336, 66)
 
 [node name="Mission0" type="Node2D"]
 script = ExtResource("1_3n2wy")
@@ -32,17 +35,18 @@ zoom = Vector2(0.75, 0.75)
 [node name="Margin_UI" type="CanvasLayer" parent="."]
 visible = false
 
-[node name="PlayableBound" type="StaticBody2D" parent="."]
+[node name="PlayableBound" type="Area2D" parent="."]
+visible = false
 position = Vector2(472, 0)
 collision_layer = 16
-collision_mask = 33
+collision_mask = 37
 
 [node name="BFloor" type="CollisionShape2D" parent="PlayableBound"]
 position = Vector2(360, 968)
 shape = SubResource("RectangleShape2D_m6u7c")
 
 [node name="BCeiling" type="CollisionShape2D" parent="PlayableBound"]
-position = Vector2(376, -40)
+position = Vector2(376, -72)
 rotation = 3.14159
 shape = SubResource("RectangleShape2D_iw388")
 
@@ -54,7 +58,19 @@ shape = SubResource("RectangleShape2D_ppn25")
 position = Vector2(-72, 472)
 shape = SubResource("RectangleShape2D_ppn25")
 
+[node name="kill_void" type="Area2D" parent="."]
+unique_name_in_owner = true
+visible = false
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="kill_void"]
+position = Vector2(908, 1119)
+shape = SubResource("RectangleShape2D_l1qxv")
+
 [node name="EnSpawner" parent="." instance=ExtResource("5_yfa6y")]
+position = Vector2(832, -256)
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 2.0
@@ -63,6 +79,7 @@ one_shot = true
 [node name="PlrSpawnPos" type="Marker2D" parent="."]
 position = Vector2(832, 832)
 
+[connection signal="area_entered" from="kill_void" to="." method="_on_kill_void_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 
 [editable path="InfiniteVoidBG"]

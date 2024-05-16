@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bhsqtqwuv8o8i"]
+[gd_scene load_steps=7 format=3 uid="uid://bhsqtqwuv8o8i"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/moon_blade.gd" id="1_pck7m"]
 [ext_resource type="Texture2D" uid="uid://q4nenyop4p8a" path="res://sprite/fx/01.png" id="2_25s55"]
@@ -9,36 +9,12 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g60kr"]
 size = Vector2(32, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_ayq3p"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("3_ow2nl")
-}, {
-"duration": 1.0,
-"texture": ExtResource("4_mrr5b")
-}],
-"loop": true,
-"name": &"long",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_25s55")
-}, {
-"duration": 1.0,
-"texture": ExtResource("5_m0hl8")
-}],
-"loop": true,
-"name": &"short",
-"speed": 5.0
-}]
-
 [node name="MoonShot" type="Area2D"]
 collision_layer = 4
 collision_mask = 18
 script = ExtResource("1_pck7m")
-speed = 2000.0
+texture_array = Array[Texture2D]([ExtResource("2_25s55"), ExtResource("5_m0hl8"), ExtResource("3_ow2nl"), ExtResource("4_mrr5b")])
+speed = 1200.0
 
 [node name="bullet_box" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_g60kr")
@@ -46,16 +22,7 @@ shape = SubResource("RectangleShape2D_g60kr")
 [node name="bullet_sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_25s55")
 
-[node name="bullet_long" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(-16, 0)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("3_ow2nl")
-
-[node name="bullet_sprites" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_ayq3p")
-animation = &"short"
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

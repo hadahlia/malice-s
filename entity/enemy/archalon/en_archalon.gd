@@ -37,13 +37,24 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	position += transform.y * speed * delta
 
-func kill():
+func explode():
 	var explosion_instance = explosion.instantiate() as Node2D
 	explosion_instance.global_position = global_position
 	get_parent().add_child(explosion_instance)
-	slain.emit()
-	queue_free()
 
+func kill():
+	explode()
+	#slain.emit()
+	#print("slain emitted")
+	#get_parent().remove_child(self)
+	#remove_child()
+	_remove()
+	slain.emit()
+
+
+func _remove():
+	queue_free()
+	#owner.remove_child(self)
 #func _on_body_entered(body):
 	#kill()
 

@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://bdd7ut5xh0dr8"]
+
+[ext_resource type="Script" path="res://levels/ui/main_scene.gd" id="1_e181m"]
+
+[node name="MainScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e181m")
+
+[node name="Menu" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -125.0
+offset_right = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Menu"]
+layout_mode = 0
+offset_left = -549.0
+offset_top = -38.0
+offset_right = 1301.0
+offset_bottom = 1016.0
+color = Color(0.121569, 0.121569, 0.207843, 1)
+
+[node name="level_select" type="Button" parent="Menu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.525
+anchor_right = 0.525
+offset_left = -134.925
+offset_top = 365.0
+offset_right = 135.075
+offset_bottom = 396.0
+text = "Select"
+
+[node name="Level_Select" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 0
+
+[node name="ColorRect2" type="ColorRect" parent="Level_Select"]
+layout_mode = 0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = 1976.0
+offset_bottom = 1056.0
+color = Color(0.203922, 0.0117647, 0.054902, 1)
+
+[node name="TextureButton" type="TextureButton" parent="Level_Select"]
+visible = false
+layout_mode = 0
+offset_left = 673.0
+offset_top = 280.0
+offset_right = 713.0
+offset_bottom = 320.0
+
+[node name="level_1" type="Button" parent="Level_Select"]
+layout_mode = 0
+offset_left = 336.0
+offset_top = 200.0
+offset_right = 559.0
+offset_bottom = 303.0
+text = "L1"
+
+[node name="HUD" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="God" type="Node2D" parent="."]
+
+[node name="Cammy" type="Camera2D" parent="God"]
+anchor_mode = 0
+zoom = Vector2(0.75, 0.75)
+
+[connection signal="pressed" from="Menu/level_select" to="." method="_on_level_select_pressed"]
+[connection signal="pressed" from="Level_Select/level_1" to="." method="_on_level_1_pressed"]

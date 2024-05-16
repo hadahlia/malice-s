@@ -26,7 +26,8 @@ func kill():
 	get_parent().add_child(explosion_instance)
 	slain.emit()
 	queue_free()
-
+	#get_parent().remove_child(self)
+	
 #func _on_body_entered(body):
 	#kill()
 

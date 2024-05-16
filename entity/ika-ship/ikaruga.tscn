@@ -1,10 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://8ughnu5tewm8"]
+[gd_scene load_steps=11 format=3 uid="uid://8ughnu5tewm8"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/ikaruga.gd" id="1_daaj3"]
 [ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/ika-ship/moon_slice.tscn" id="2_wqn08"]
 [ext_resource type="Texture2D" uid="uid://8s1c2upwx74q" path="res://sprite/ships/v_strider.png" id="3_fwh7l"]
-[ext_resource type="PackedScene" uid="uid://b7rgbmpi7dcht" path="res://entity/ika-ship/long_bullet_b.tscn" id="3_vemml"]
-[ext_resource type="PackedScene" uid="uid://dymk313jk05ew" path="res://entity/ika-ship/long_bullet_r.tscn" id="4_2wlqt"]
 [ext_resource type="Texture2D" uid="uid://ilopag6muatl" path="res://sprite/fx/polaura.png" id="4_7tlya"]
 [ext_resource type="Texture2D" uid="uid://c2afn7bfybcmm" path="res://sprite/ships/b_strider.png" id="4_mmio5"]
 [ext_resource type="AudioStream" uid="uid://dv1cex24go4yj" path="res://audio/poly/pewy.wav" id="6_7u2n2"]
@@ -25,8 +23,6 @@ collision_mask = 16
 script = ExtResource("1_daaj3")
 speed = 550
 Bullet = ExtResource("2_wqn08")
-long_b_bullet = ExtResource("3_vemml")
-long_r_bullet = ExtResource("4_2wlqt")
 
 [node name="collisionshape" type="CollisionShape2D" parent="."]
 scale = Vector2(1.42105, 1.42105)
@@ -51,27 +47,26 @@ texture = ExtResource("4_mmio5")
 position = Vector2(0, -42.8571)
 rotation = -1.57079
 
-[node name="Gun1" type="Marker2D" parent="."]
-position = Vector2(-21.4286, -14.2857)
-rotation = -1.57079
-
-[node name="Gun2" type="Marker2D" parent="."]
-position = Vector2(21.4286, -14.2857)
-rotation = -1.57079
-
 [node name="LGun" type="Marker2D" parent="."]
-position = Vector2(-42.8571, -28.5714)
+position = Vector2(-35.7143, -21.4286)
 rotation = -1.57079
 
 [node name="RGun" type="Marker2D" parent="."]
-position = Vector2(42.8571, -28.5714)
+position = Vector2(35.7143, -21.4286)
 rotation = -1.57079
 
 [node name="FireCooldown" type="Timer" parent="."]
 wait_time = 0.065
 one_shot = true
 
+[node name="InvTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 6.0
+one_shot = true
+autostart = true
+
 [node name="NexusCore" type="Area2D" parent="."]
+visible = false
 collision_mask = 34
 monitorable = false
 
@@ -91,6 +86,7 @@ fixed_fps = 16
 trail_lifetime = 0.01
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+visible = false
 
 [node name="FiringSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_7u2n2")
@@ -100,5 +96,6 @@ max_distance = 9999.0
 max_polyphony = 8
 
 [connection signal="timeout" from="FireCooldown" to="." method="_on_fire_cooldown_timeout"]
+[connection signal="timeout" from="InvTimer" to="." method="_on_inv_timer_timeout"]
 [connection signal="area_entered" from="NexusCore" to="." method="_on_nexus_core_area_entered"]
 [connection signal="body_entered" from="NexusCore" to="." method="_on_nexus_core_body_entered"]

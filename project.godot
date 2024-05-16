@@ -11,12 +11,12 @@ config_version=5
 [application]
 
 config/name="sconsequence"
+run/main_scene="res://levels/ui/mainscene.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Spawning="res://addons/BulletUpHell/Spawning.tscn"
 Global="*res://levels/hangar/Global.gd"
 
 [display]
@@ -31,12 +31,11 @@ project/assembly_name="sconsequence"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/BulletUpHell/plugin.cfg")
+enabled=PackedStringArray()
 
 [file_customization]
 
 folder_colors={
-"res://addons/": "blue",
 "res://addons/BulletUpHell/Bullet/": "red",
 "res://addons/BulletUpHell/ExampleScenes/": "green",
 "res://addons/BulletUpHell/Nodes/": "yellow",

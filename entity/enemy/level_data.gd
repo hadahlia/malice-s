@@ -16,12 +16,13 @@ var en_list : Array[PackedScene]
 
 func _set_level_data():
 	pos_list = [
-		l1,l1,l3,l2,l3,l3,l2,l1
+		l1,l1,l3,l2,l3,
+		l3,l2,l1, l1, l1
 		]
 	en_list = [
-		barge,barge,barge,sheep,sheep,barge,sheep,barge
+		barge,barge,barge,sheep,sheep,
+		barge,sheep,barge, sheep, sheep
 		]
-	spawn_timer.start()
 	get_parent()._get_data(pos_list, en_list)
 
 func _on_spawn_timer_timeout():

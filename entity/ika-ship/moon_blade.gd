@@ -1,18 +1,22 @@
 extends Area2D
 
+@export var texture_array : Array[Texture2D]
+
 @export var damage : int = 10
 @export var max_range := 2000.0
 @export var speed := 920.0
 
 @onready var player := load("res://entity/ika-ship/ikaruga.tscn")
 
-#@onready var short_sprite := $bullet_sprite
+@onready var sprite := $bullet_sprite
 #@onready var long_sprite := $bullet_long
-@onready var spritesheet := $bullet_sprites
+#@onready var spritesheet := $bullet_sprites
 
-var _travelled_dist = 0.0
+#var _travelled_dist = 0.0
 
 var bullet_fade : PackedScene = load("res://levels/effects/hit_fade.tscn")
+
+var bullet_type : int = 0
 
 signal bullet_freed
 
@@ -42,3 +46,13 @@ func _on_body_entered(_body):
 func _on_area_entered(area):
 	#area.health -= damage
 	hit_effect()
+
+
+func set_color(type):
+	bullet_type = type
+	sprite.texture = texture_array[type]
+
+
+func _on_visible_on_screen_enabler_2d_screen_exited():
+	bullet_freed.emit()
+	queue_free()

@@ -37,7 +37,7 @@ scale = Vector2(1.2725, 3.61391)
 shape = SubResource("CircleShape2D_cmh18")
 
 [node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 4
+collision_layer = 0
 collision_mask = 4
 
 [node name="HurtShape" type="CollisionShape2D" parent="HurtBox"]

@@ -39,7 +39,7 @@ position = Vector2(8, 0)
 collision_layer = 4
 collision_mask = 18
 script = ExtResource("1_7jg1m")
-speed = 2000.0
+speed = 1200.0
 
 [node name="bullet_box" type="CollisionShape2D" parent="."]
 position = Vector2(-8, 0)

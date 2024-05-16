@@ -7,11 +7,13 @@ extends CharacterBody2D
 
 
 @export var Bullet : PackedScene = load("res://entity/ika-ship/moon_slice.tscn")
-@export var long_b_bullet : PackedScene
-@export var long_r_bullet : PackedScene
-var A_Bullet : PackedScene = load("res://entity/ika-ship/moon_slice_a.tscn")
+#@export var long_b_bullet : PackedScene
+#@export var long_r_bullet : PackedScene
+#var A_Bullet : PackedScene = load("res://entity/ika-ship/moon_slice_a.tscn")
 
 #var long_blue := load()
+@onready var hitbox := $NexusCore
+@onready var inv_timer = %InvTimer
 
 @onready var r_sprite = $SpriteA
 @onready var b_sprite = $SpriteB
@@ -28,13 +30,17 @@ var score : int = 0
 var _canFire : bool
 var _polarized : bool
 
+var bullet_type : int = 0
+
 signal hit
 
 func _ready():
+	print("invincibility autostart")
 	_canFire = true
 	_polarized = false
 	b_sprite.show()
 	r_sprite.hide()
+	#get_parent().respawn.connect(_invincibility_time)
 
 
 
@@ -50,64 +56,72 @@ func get_input():
 		input.y -= 1
 	return input
 
-func spawn_blue_s():
+func fire_0():
 	var b1 = Bullet.instantiate()
-	var b2 = Bullet.instantiate()
-	var b3 = Bullet.instantiate()
+	#var b2 = Bullet.instantiate()
+	#var b3 = Bullet.instantiate()
 	#b1.animation = "short"
 	b1.bullet_freed.connect(_on_bullet_freed)
+	#get_parent().add_child(b2)
+	#get_parent().add_child(b3)
 	get_parent().add_child(b1)
-	get_parent().add_child(b2)
-	get_parent().add_child(b3)
 	b1.transform = $Gun0.global_transform
-	b2.transform = $Gun1.global_transform
-	b3.transform = $Gun2.global_transform
+	b1.set_color(bullet_type)
+	
+	#b2.transform = $Gun1.global_transform
+	#b3.transform = $Gun2.global_transform
 
-func spawn_blue_long():
-	var l1 = long_b_bullet.instantiate()
+func fire_lasers():
+	var l1 = Bullet.instantiate()
 	#l1.animation = "long"
 	#l1.short_sprite.hide()
 	#l1.long_sprite.show()
-	var l2 = long_b_bullet.instantiate()
+	var l2 = Bullet.instantiate()
 	#l2.short_sprite.hide()
 	#l2.long_sprite.show()
 	get_parent().add_child(l1)
 	get_parent().add_child(l2)
 	l1.transform = $LGun.global_transform
 	l2.transform = $RGun.global_transform
+	l1.set_color(bullet_type+2)
+	l2.set_color(bullet_type+2)
 
-func spawn_red_s():
-	var c1 = A_Bullet.instantiate()
-	var c2 = A_Bullet.instantiate()
-	var c3 = A_Bullet.instantiate()
-	get_parent().add_child(c1)
-	get_parent().add_child(c2)
-	get_parent().add_child(c3)
-	c1.bullet_freed.connect(_on_bullet_freed)
-	c1.transform = $Gun0.global_transform
-	c2.transform = $Gun1.global_transform
-	c3.transform = $Gun2.global_transform
-
-func spawn_red_long():
-	var l1 = long_r_bullet.instantiate()
+#func spawn_red_s():
+	#var c1 = Bullet.instantiate()
+	#var c2 = A_Bullet.instantiate()
+	#var c3 = A_Bullet.instantiate()
+	#get_parent().add_child(c1)
+	#get_parent().add_child(c2)
+	#get_parent().add_child(c3)
+	#c1.bullet_freed.connect(_on_bullet_freed)
+	#c1.transform = $Gun0.global_transform
+	#c2.transform = $Gun1.global_transform
+	#c3.transform = $Gun2.global_transform
+#
+#func spawn_red_long():
+	#var l1 = Bullet.instantiate()
 	#l1.animation = "long"
 	#l1.short_sprite.hide()
 	#l1.long_sprite.show()
-	var l2 = long_r_bullet.instantiate()
+	#var l2 = Bullet.instantiate()
 	#l2.short_sprite.hide()
 	#l2.long_sprite.show()
-	get_parent().add_child(l1)
-	get_parent().add_child(l2)
-	l1.transform = $LGun.global_transform
-	l2.transform = $RGun.global_transform
+	#get_parent().add_child(l1)
+	#get_parent().add_child(l2)
+	#l1.transform = $LGun.global_transform
+	#l2.transform = $RGun.global_transform
 
-func b_fire():
-	if _polarized:
-		spawn_red_s()
-		spawn_red_long()
-	else:
-		spawn_blue_s()
-		spawn_blue_long()
+func fire():
+	#if _polarized:
+		#bullet_type = 1
+		##spawn_red_s()
+		##spawn_red_long()
+	#else:
+		#bullet_type = 0
+		##spawn_blue_s()
+		##spawn_blue_long()
+	fire_0()
+	fire_lasers()
 	fire_sfx.play()
 	#await(get_tree()).create_timer(0.5, true)
 	$FireCooldown.start()
@@ -118,15 +132,17 @@ func _polarization():
 	$FireCooldown.start()
 	_polarized = !_polarized
 	if _polarized:
+		bullet_type = 1
 		b_sprite.hide()
 		r_sprite.show()
 	else:
+		bullet_type = 0
 		r_sprite.hide()
 		b_sprite.show()
 
 func _process(delta):
 	if Input.is_action_pressed("fire") and _canFire and shot_count < shot_limit:
-		b_fire()
+		fire()
 	#elif Input.is_action_pressed("fire") and _canFire and shot_count < shot_limit and _polarized:
 		#b_fire()
 	if Input.is_action_just_pressed("polarity_switch"):
@@ -164,4 +180,21 @@ func _on_nexus_core_body_entered(body):
 
 
 func _on_nexus_core_area_entered(area):
-	death()
+	if hitbox.is_visible():
+		death()
+	else:
+		print("loser :3")
+		pass
+
+func _invincibility_toggle():
+	
+	if hitbox.is_visible():
+		print("invincible!")
+		hitbox.hide()
+		inv_timer.start()
+	else:
+		_on_inv_timer_timeout()
+
+func _on_inv_timer_timeout():
+	print("inv end")
+	hitbox.show()

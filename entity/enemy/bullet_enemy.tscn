@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cwdv04wh3gv70"]
+[gd_scene load_steps=6 format=3 uid="uid://cwdv04wh3gv70"]
 
 [ext_resource type="Script" path="res://entity/enemy/bullet_enemy.gd" id="1_p3gi4"]
 [ext_resource type="Texture2D" uid="uid://quvman8s0moo" path="res://sprite/fx/13_r.png" id="2_fcvu2"]
 [ext_resource type="Texture2D" uid="uid://cqyb0kaodqfuq" path="res://sprite/fx/13_b.png" id="3_qng8b"]
+[ext_resource type="Texture2D" uid="uid://dl2t74d7m830s" path="res://sprite/fx/11.png" id="4_bbena"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_udrd7"]
 radius = 8.0
@@ -26,5 +27,8 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_udrd7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 9.53674e-07)
+scale = Vector2(0.706827, 0.833333)
+texture = ExtResource("4_bbena")
 
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]
