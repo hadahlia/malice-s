@@ -1,10 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://58uwhr5waftp"]
+[gd_scene load_steps=5 format=3 uid="uid://58uwhr5waftp"]
 
 [ext_resource type="Script" path="res://levels/en_spawner.gd" id="1_tqhgi"]
+[ext_resource type="Script" path="res://entity/enemy/level_data.gd" id="2_jg2e3"]
+[ext_resource type="Script" path="res://levels/wake_zone.gd" id="3_jr3b2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7rijn"]
+size = Vector2(840, 1200)
 
 [node name="EnSpawner" type="Node2D"]
 position = Vector2(832, -256)
 script = ExtResource("1_tqhgi")
+
+[node name="DebugLvl" type="Node2D" parent="."]
+script = ExtResource("2_jg2e3")
+
+[node name="SpawnTimer" type="Timer" parent="DebugLvl"]
+wait_time = 6.0
 
 [node name="LaneL" type="Marker2D" parent="."]
 position = Vector2(-256, 64)
@@ -15,7 +26,14 @@ position = Vector2(0, 64)
 [node name="LaneR" type="Marker2D" parent="."]
 position = Vector2(256, 64)
 
-[node name="FallbackTimer" type="Timer" parent="."]
-autostart = true
+[node name="WakeZone" type="Area2D" parent="."]
+position = Vector2(0, -224)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_jr3b2")
 
-[connection signal="timeout" from="FallbackTimer" to="." method="_on_fallback_timer_timeout"]
+[node name="WakeShape" type="CollisionShape2D" parent="WakeZone"]
+position = Vector2(836, 456)
+shape = SubResource("RectangleShape2D_7rijn")
+
+[connection signal="timeout" from="DebugLvl/SpawnTimer" to="DebugLvl" method="_on_spawn_timer_timeout"]

@@ -16,7 +16,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Spawning="*res://addons/BulletUpHell/Spawning.tscn"
+Spawning="res://addons/BulletUpHell/Spawning.tscn"
+Global="*res://levels/hangar/Global.gd"
 
 [display]
 

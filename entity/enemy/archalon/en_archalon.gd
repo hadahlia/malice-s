@@ -13,6 +13,8 @@ var theta : float = 0.0
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 
+var bullet_variant : int = 1
+
 signal take_hit
 signal slain
 
@@ -25,6 +27,7 @@ func shoot(angle):
 	
 	bull.position = gun.global_position
 	bull.direction = get_vector(angle)
+	bull.set_property(bullet_variant)
 	
 	get_tree().current_scene.call_deferred("add_child", bull)
 

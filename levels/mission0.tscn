@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=8 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
@@ -13,9 +13,6 @@ size = Vector2(936, 135.891)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ppn25"]
 size = Vector2(113, 960)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_85e35"]
-size = Vector2(840, 1200)
 
 [node name="Mission0" type="Node2D"]
 script = ExtResource("1_3n2wy")
@@ -37,7 +34,8 @@ visible = false
 
 [node name="PlayableBound" type="StaticBody2D" parent="."]
 position = Vector2(472, 0)
-collision_layer = 49
+collision_layer = 16
+collision_mask = 33
 
 [node name="BFloor" type="CollisionShape2D" parent="PlayableBound"]
 position = Vector2(360, 968)
@@ -56,23 +54,14 @@ shape = SubResource("RectangleShape2D_ppn25")
 position = Vector2(-72, 472)
 shape = SubResource("RectangleShape2D_ppn25")
 
-[node name="WakeZone" type="Area2D" parent="."]
-visible = false
-collision_layer = 0
-collision_mask = 2
-
-[node name="WakeShape" type="CollisionShape2D" parent="WakeZone"]
-position = Vector2(836, 456)
-shape = SubResource("RectangleShape2D_85e35")
-
-[node name="PlrSpawnPos" type="Marker2D" parent="."]
-position = Vector2(832, 832)
+[node name="EnSpawner" parent="." instance=ExtResource("5_yfa6y")]
 
 [node name="RespawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
-[node name="EnSpawner" parent="." instance=ExtResource("5_yfa6y")]
+[node name="PlrSpawnPos" type="Marker2D" parent="."]
+position = Vector2(832, 832)
 
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
 

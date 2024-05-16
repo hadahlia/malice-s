@@ -9,8 +9,8 @@ radius = 27.0185
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugr5m"]
 size = Vector2(112, 120)
 
-[node name="EnBuzal" type="Area2D"]
-scale = Vector2(0.6, 0.6)
+[node name="EnBuzal" type="Area2D" groups=["enemies"]]
+scale = Vector2(0.3, 0.3)
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_c5v0h")
