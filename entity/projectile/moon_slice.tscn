@@ -1,0 +1,29 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhsqtqwuv8o8i"]
+
+[ext_resource type="Script" path="res://entity/projectile/moon_blade.gd" id="1_0m1bj"]
+[ext_resource type="Texture2D" uid="uid://q4nenyop4p8a" path="res://sprite/fx/01.png" id="2_ccg0n"]
+[ext_resource type="Texture2D" uid="uid://bkop86h540ddt" path="res://sprite/fx/02.png" id="3_kywm8"]
+[ext_resource type="Texture2D" uid="uid://dl2t74d7m830s" path="res://sprite/fx/11.png" id="4_v5vwi"]
+[ext_resource type="Texture2D" uid="uid://jbihuwcp2glg" path="res://sprite/fx/14.png" id="5_f6d2c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g60kr"]
+size = Vector2(24, 32)
+
+[node name="MoonShot" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_0m1bj")
+texture_array = Array[Texture2D]([ExtResource("2_ccg0n"), ExtResource("3_kywm8"), ExtResource("4_v5vwi"), ExtResource("5_f6d2c")])
+speed = 1600.0
+
+[node name="bullet_box" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_g60kr")
+
+[node name="bullet_sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_ccg0n")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

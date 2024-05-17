@@ -13,10 +13,8 @@ motion_mirroring = Vector2(0, 512)
 
 [node name="TextureRect" type="TextureRect" parent="SpaceLayer"]
 modulate = Color(0.239216, 0.239216, 0.239216, 1)
-offset_left = -16.0
-offset_top = -48.0
-offset_right = 736.0
-offset_bottom = 1008.0
+offset_right = 608.0
+offset_bottom = 808.0
 texture = ExtResource("1_gvd80")
 stretch_mode = 1
 
@@ -32,3 +30,7 @@ offset_right = 736.0
 offset_bottom = 1008.0
 texture = ExtResource("3_hlvtf")
 stretch_mode = 1
+
+[node name="Cammy" type="Camera2D" parent="."]
+position = Vector2(3, 0)
+anchor_mode = 0

@@ -1,34 +1,124 @@
-[gd_scene load_steps=11 format=3 uid="uid://8ughnu5tewm8"]
+[gd_scene load_steps=20 format=3 uid="uid://8ughnu5tewm8"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/ikaruga.gd" id="1_daaj3"]
-[ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/ika-ship/moon_slice.tscn" id="2_wqn08"]
+[ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/projectile/moon_slice.tscn" id="2_wqn08"]
+[ext_resource type="Texture2D" uid="uid://pwang074ndqg" path="res://sprite/ui/Button13.png" id="3_anwfs"]
 [ext_resource type="Texture2D" uid="uid://8s1c2upwx74q" path="res://sprite/ships/v_strider.png" id="3_fwh7l"]
-[ext_resource type="Texture2D" uid="uid://ilopag6muatl" path="res://sprite/fx/polaura.png" id="4_7tlya"]
+[ext_resource type="Texture2D" uid="uid://b4jrdpckq6fva" path="res://sprite/ships/rai2.png" id="3_yd32l"]
+[ext_resource type="Script" path="res://levels/ui/heat_bar.gd" id="4_10dm8"]
 [ext_resource type="Texture2D" uid="uid://c2afn7bfybcmm" path="res://sprite/ships/b_strider.png" id="4_mmio5"]
 [ext_resource type="AudioStream" uid="uid://dv1cex24go4yj" path="res://audio/poly/pewy.wav" id="6_7u2n2"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gov7"]
+bg_color = Color(0.054902, 0.411765, 0.360784, 0.635294)
+corner_radius_top_right = 16
+corner_radius_bottom_left = 16
+expand_margin_left = 4.0
+expand_margin_top = 10.0
+expand_margin_right = 3.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jt1s6"]
+texture = ExtResource("3_anwfs")
+region_rect = Rect2(5, 0, 100, 21)
+modulate_color = Color(1, 0.109804, 0.498039, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iaqm4"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(0, 0, 135, 156)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tptsa"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(135, 0, 135, 156)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rv30t"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(270, 0, 135, 156)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ftkro"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(405, 0, 135, 156)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ll3yy"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(540, 0, 135, 156)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_is70c"]
+atlas = ExtResource("3_yd32l")
+region = Rect2(675, 0, 135, 156)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_guuko"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iaqm4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tptsa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rv30t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ftkro")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ll3yy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_is70c")
+}],
+"loop": false,
+"name": &"tilt",
+"speed": 24.0
+}]
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_427sm"]
-radius = 25.2029
+radius = 37.5309
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_237g1"]
-radius = 7.23938
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_awql2"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1qjfm"]
+radius = 10.1351
 
 [node name="Ikaruga" type="CharacterBody2D"]
-scale = Vector2(1.12, 1.12)
+scale = Vector2(0.6, 0.6)
 collision_mask = 16
 script = ExtResource("1_daaj3")
-speed = 550
+speed = 460
+heat_limit = 777
 Bullet = ExtResource("2_wqn08")
+
+[node name="HeatBar" type="ProgressBar" parent="."]
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -107.0
+offset_top = 107.0
+offset_right = 107.0
+offset_bottom = 129.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_0gov7")
+theme_override_styles/fill = SubResource("StyleBoxTexture_jt1s6")
+max_value = 555.0
+step = 11.0
+value = 264.0
+show_percentage = false
+script = ExtResource("4_10dm8")
+
+[node name="SpriteT" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -14.2857)
+sprite_frames = SubResource("SpriteFrames_guuko")
+animation = &"tilt"
 
 [node name="collisionshape" type="CollisionShape2D" parent="."]
 scale = Vector2(1.42105, 1.42105)
 shape = SubResource("CircleShape2D_427sm")
 
 [node name="SpriteA" type="Sprite2D" parent="."]
+visible = false
 light_mask = 2
 visibility_layer = 2
 position = Vector2(-6.55651e-07, -3.54648e-06)
@@ -59,6 +149,10 @@ rotation = -1.57079
 wait_time = 0.065
 one_shot = true
 
+[node name="VentDelay" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
 [node name="InvTimer" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 6.0
@@ -66,24 +160,12 @@ one_shot = true
 autostart = true
 
 [node name="NexusCore" type="Area2D" parent="."]
-visible = false
 collision_mask = 34
 monitorable = false
 
 [node name="killbox" type="CollisionShape2D" parent="NexusCore"]
 scale = Vector2(1.48, 1.48)
 shape = SubResource("CircleShape2D_237g1")
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
-modulate = Color(0.878431, 0.101961, 0.301961, 1)
-show_behind_parent = true
-material = SubResource("CanvasItemMaterial_awql2")
-amount = 1
-process_material = SubResource("ShaderMaterial_1qjfm")
-texture = ExtResource("4_7tlya")
-fixed_fps = 16
-trail_lifetime = 0.01
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 visible = false
@@ -96,6 +178,7 @@ max_distance = 9999.0
 max_polyphony = 8
 
 [connection signal="timeout" from="FireCooldown" to="." method="_on_fire_cooldown_timeout"]
+[connection signal="timeout" from="VentDelay" to="." method="_on_vent_delay_timeout"]
 [connection signal="timeout" from="InvTimer" to="." method="_on_inv_timer_timeout"]
 [connection signal="area_entered" from="NexusCore" to="." method="_on_nexus_core_area_entered"]
 [connection signal="body_entered" from="NexusCore" to="." method="_on_nexus_core_body_entered"]

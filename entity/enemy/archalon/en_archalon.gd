@@ -1,7 +1,7 @@
 extends Area2D
 
 @export var health : int = 420
-
+@export var score_provide : int = 1000
 @export var speed : float = 16.0
 
 var theta : float = 0.0

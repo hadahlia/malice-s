@@ -7,7 +7,7 @@ var sheep : PackedScene = load("res://entity/enemy/buzal/en_buzals.tscn")
 
 var en_list : Array[PackedScene]
 
-@onready var spawn_timer := $SpawnTimer
+@onready var spawn_timer = %SpawnTimer
 
 @onready var l1 = owner.find_child("LaneL") 
 @onready var l2 = owner.find_child("LaneM") 
@@ -15,16 +15,18 @@ var en_list : Array[PackedScene]
 @onready var pos_list : Array[Marker2D]
 
 func _set_level_data():
-	#var call = get_child(Global.level_id)
 	pos_list = [
 		l1,l1,l3,l2,l3,
-		l3,l2,l1, l1, l1
+		l2,l1,l3,l1,l1,
+		l3,l2,l1,l1,l1
 		]
 	en_list = [
-		barge,barge,barge,sheep,sheep,
-		barge,sheep,barge, sheep, sheep
+		sheep,sheep,sheep,barge,barge,
+		barge,sheep,sheep,sheep,barge,
+		barge,sheep,barge,sheep,sheep
 		]
 	get_parent()._get_data(pos_list, en_list)
+
 
 func _on_spawn_timer_timeout():
 	get_parent()._spawn_wave()

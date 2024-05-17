@@ -5,7 +5,7 @@ extends Node2D
 
 @onready var spawn_pos := $PlrSpawnPos
 @onready var respawn_timer := $RespawnTimer
-#@onready var inv_time := %InvTimer
+
 
 @onready var kill_void = %kill_void
 

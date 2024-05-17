@@ -13,46 +13,79 @@ script = ExtResource("1_e181m")
 
 [node name="Menu" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 13
+anchors_preset = 8
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -125.0
-offset_right = 132.0
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="Menu"]
-layout_mode = 0
-offset_left = -549.0
-offset_top = -38.0
-offset_right = 1301.0
-offset_bottom = 1016.0
+layout_mode = 1
+offset_left = -364.0
+offset_top = -440.0
+offset_right = 388.0
+offset_bottom = 456.0
 color = Color(0.121569, 0.121569, 0.207843, 1)
 
-[node name="level_select" type="Button" parent="Menu"]
+[node name="vbox" type="VBoxContainer" parent="Menu"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.525
-anchor_right = 0.525
-offset_left = -134.925
-offset_top = 365.0
-offset_right = 135.075
-offset_bottom = 396.0
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 108.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="level_selbtn" type="Button" parent="Menu/vbox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Select"
+
+[node name="Label" type="Label" parent="Menu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -356.0
+offset_top = 424.0
+offset_right = -252.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 18
+text = "@hadahlia"
+horizontal_alignment = 1
 
 [node name="Level_Select" type="Control" parent="."]
 visible = false
 layout_mode = 1
-anchors_preset = 0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect2" type="ColorRect" parent="Level_Select"]
-layout_mode = 0
-offset_left = -34.0
-offset_top = -38.0
-offset_right = 1976.0
-offset_bottom = 1056.0
-color = Color(0.203922, 0.0117647, 0.054902, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -376.0
+offset_top = -448.0
+offset_right = 376.0
+offset_bottom = 448.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.266667, 0.0156863, 0.0823529, 1)
 
 [node name="TextureButton" type="TextureButton" parent="Level_Select"]
 visible = false
@@ -62,24 +95,66 @@ offset_top = 280.0
 offset_right = 713.0
 offset_bottom = 320.0
 
-[node name="level_1" type="Button" parent="Level_Select"]
-layout_mode = 0
-offset_left = 336.0
-offset_top = 200.0
-offset_right = 559.0
-offset_bottom = 303.0
+[node name="BoxContainer" type="BoxContainer" parent="Level_Select"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -104.0
+offset_top = -64.0
+offset_right = 104.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Level_Select/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="level_1" type="Button" parent="Level_Select/BoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "L1"
 
-[node name="HUD" type="Control" parent="."]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="MarginContainer2" type="MarginContainer" parent="Level_Select/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="level_2" type="Button" parent="Level_Select/BoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "??
+"
+
+[node name="MarginContainer3" type="MarginContainer" parent="Level_Select/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="level_3" type="Button" parent="Level_Select/BoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "??
+"
+
+[node name="MarginContainer4" type="MarginContainer" parent="Level_Select/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="level_4" type="Button" parent="Level_Select/BoxContainer/MarginContainer4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "??"
 
 [node name="God" type="Node2D" parent="."]
 
 [node name="Cammy" type="Camera2D" parent="God"]
 anchor_mode = 0
-zoom = Vector2(0.75, 0.75)
 
-[connection signal="pressed" from="Menu/level_select" to="." method="_on_level_select_pressed"]
-[connection signal="pressed" from="Level_Select/level_1" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="Menu/vbox/level_selbtn" to="." method="_on_level_select_pressed"]
+[connection signal="pressed" from="Level_Select/BoxContainer/MarginContainer/level_1" to="." method="_on_level_1_pressed"]

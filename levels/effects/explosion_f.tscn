@@ -94,12 +94,19 @@ animations = [{
 "loop": false,
 "name": &"explode",
 "speed": 11.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"n_esplode",
+"speed": 5.0
 }]
 
 [node name="ExplosionF" type="Node2D"]
 script = ExtResource("1_biaql")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -56)
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_iwxg3")
 animation = &"explode"
 
@@ -108,6 +115,6 @@ stream = ExtResource("1_yiduy")
 volume_db = -14.054
 pitch_scale = 2.31
 autoplay = true
-max_polyphony = 15
+max_polyphony = 3
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
