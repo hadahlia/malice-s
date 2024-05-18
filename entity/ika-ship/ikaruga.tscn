@@ -1,27 +1,32 @@
-[gd_scene load_steps=20 format=3 uid="uid://8ughnu5tewm8"]
+[gd_scene load_steps=19 format=3 uid="uid://8ughnu5tewm8"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/ikaruga.gd" id="1_daaj3"]
 [ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/projectile/moon_slice.tscn" id="2_wqn08"]
 [ext_resource type="Texture2D" uid="uid://pwang074ndqg" path="res://sprite/ui/Button13.png" id="3_anwfs"]
-[ext_resource type="Texture2D" uid="uid://8s1c2upwx74q" path="res://sprite/ships/v_strider.png" id="3_fwh7l"]
+[ext_resource type="FontFile" uid="uid://dvtfa5uxwot3n" path="res://sprite/ui/monogram.ttf" id="3_w86ci"]
 [ext_resource type="Texture2D" uid="uid://b4jrdpckq6fva" path="res://sprite/ships/rai2.png" id="3_yd32l"]
 [ext_resource type="Script" path="res://levels/ui/heat_bar.gd" id="4_10dm8"]
-[ext_resource type="Texture2D" uid="uid://c2afn7bfybcmm" path="res://sprite/ships/b_strider.png" id="4_mmio5"]
-[ext_resource type="AudioStream" uid="uid://dv1cex24go4yj" path="res://audio/poly/pewy.wav" id="6_7u2n2"]
+[ext_resource type="AudioStream" uid="uid://bttf3emm8dprt" path="res://audio/poly/Laser_Shoot22.wav" id="8_aj7v8"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gov7"]
-bg_color = Color(0.054902, 0.411765, 0.360784, 0.635294)
-corner_radius_top_right = 16
-corner_radius_bottom_left = 16
-expand_margin_left = 4.0
-expand_margin_top = 10.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rm3hk"]
+bg_color = Color(0.0588235, 0.0392157, 0.415686, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.486275, 0.94902, 1)
+border_blend = true
+corner_radius_top_left = 4
+corner_radius_bottom_right = 4
+expand_margin_left = 3.0
+expand_margin_top = 3.0
 expand_margin_right = 3.0
-expand_margin_bottom = 8.0
+expand_margin_bottom = 3.0
+anti_aliasing_size = 1.157
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jt1s6"]
 texture = ExtResource("3_anwfs")
-region_rect = Rect2(5, 0, 100, 21)
-modulate_color = Color(1, 0.109804, 0.498039, 1)
+region_rect = Rect2(0, 0, 105, 21)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iaqm4"]
 atlas = ExtResource("3_yd32l")
@@ -84,8 +89,10 @@ scale = Vector2(0.6, 0.6)
 collision_mask = 16
 script = ExtResource("1_daaj3")
 speed = 460
-heat_limit = 777
+shot_limit = 4
+heat_limit = 666
 Bullet = ExtResource("2_wqn08")
+multiplier = 0.04
 
 [node name="HeatBar" type="ProgressBar" parent="."]
 z_index = 1
@@ -94,13 +101,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -107.0
-offset_top = 107.0
-offset_right = 107.0
-offset_bottom = 129.0
+offset_left = -40.0
+offset_top = 106.667
+offset_right = 40.0
+offset_bottom = 133.667
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/background = SubResource("StyleBoxFlat_0gov7")
+theme_override_fonts/font = ExtResource("3_w86ci")
+theme_override_font_sizes/font_size = 64
+theme_override_styles/background = SubResource("StyleBoxFlat_rm3hk")
 theme_override_styles/fill = SubResource("StyleBoxTexture_jt1s6")
 max_value = 555.0
 step = 11.0
@@ -117,32 +126,24 @@ animation = &"tilt"
 scale = Vector2(1.42105, 1.42105)
 shape = SubResource("CircleShape2D_427sm")
 
-[node name="SpriteA" type="Sprite2D" parent="."]
-visible = false
-light_mask = 2
-visibility_layer = 2
-position = Vector2(-6.55651e-07, -3.54648e-06)
-scale = Vector2(0.403551, 0.414079)
-texture = ExtResource("3_fwh7l")
-
-[node name="SpriteB" type="Sprite2D" parent="."]
-visible = false
-light_mask = 2
-visibility_layer = 2
-position = Vector2(4.76837e-06, 9.53674e-07)
-scale = Vector2(0.134517, 0.138026)
-texture = ExtResource("4_mmio5")
-
 [node name="Gun0" type="Marker2D" parent="."]
-position = Vector2(0, -42.8571)
+position = Vector2(-2.42532e-11, -91.6667)
+rotation = -1.57079
+
+[node name="Gun1" type="Marker2D" parent="."]
+position = Vector2(51.6667, -5)
+rotation = -1.57079
+
+[node name="Gun2" type="Marker2D" parent="."]
+position = Vector2(-51.6667, -5)
 rotation = -1.57079
 
 [node name="LGun" type="Marker2D" parent="."]
-position = Vector2(-35.7143, -21.4286)
+position = Vector2(-23.3333, -43.3333)
 rotation = -1.57079
 
 [node name="RGun" type="Marker2D" parent="."]
-position = Vector2(35.7143, -21.4286)
+position = Vector2(25, -43.3333)
 rotation = -1.57079
 
 [node name="FireCooldown" type="Timer" parent="."]
@@ -171,9 +172,8 @@ shape = SubResource("CircleShape2D_237g1")
 visible = false
 
 [node name="FiringSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_7u2n2")
-volume_db = -10.909
-pitch_scale = 0.87
+stream = ExtResource("8_aj7v8")
+pitch_scale = 0.98
 max_distance = 9999.0
 max_polyphony = 8
 

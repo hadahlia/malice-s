@@ -1,27 +1,52 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhsqtqwuv8o8i"]
+[gd_scene load_steps=9 format=3 uid="uid://bhsqtqwuv8o8i"]
 
 [ext_resource type="Script" path="res://entity/projectile/moon_blade.gd" id="1_0m1bj"]
-[ext_resource type="Texture2D" uid="uid://q4nenyop4p8a" path="res://sprite/fx/01.png" id="2_ccg0n"]
-[ext_resource type="Texture2D" uid="uid://bkop86h540ddt" path="res://sprite/fx/02.png" id="3_kywm8"]
-[ext_resource type="Texture2D" uid="uid://dl2t74d7m830s" path="res://sprite/fx/11.png" id="4_v5vwi"]
-[ext_resource type="Texture2D" uid="uid://jbihuwcp2glg" path="res://sprite/fx/14.png" id="5_f6d2c"]
+[ext_resource type="Texture2D" uid="uid://dewqbvco8ydll" path="res://sprite/fx/spark/spark-preview1.png" id="2_yvonh"]
+[ext_resource type="Texture2D" uid="uid://b1li68ns5ec3i" path="res://sprite/fx/spark/spark-preview2.png" id="3_nxb5x"]
+[ext_resource type="Texture2D" uid="uid://du8nqk4g776wo" path="res://sprite/fx/spark/spark-preview3.png" id="4_ofdev"]
+[ext_resource type="Texture2D" uid="uid://c4iiyqbaj3vw5" path="res://sprite/fx/spark/spark-preview4.png" id="5_3rex4"]
+[ext_resource type="Texture2D" uid="uid://c3p4lb1yeuqn" path="res://sprite/fx/spark/spark-preview5.png" id="6_5p2pr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g60kr"]
-size = Vector2(24, 32)
+size = Vector2(35, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_taf7w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_yvonh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_nxb5x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_ofdev")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_3rex4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_5p2pr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 22.0
+}]
 
 [node name="MoonShot" type="Area2D"]
 collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_0m1bj")
-texture_array = Array[Texture2D]([ExtResource("2_ccg0n"), ExtResource("3_kywm8"), ExtResource("4_v5vwi"), ExtResource("5_f6d2c")])
 speed = 1600.0
 
 [node name="bullet_box" type="CollisionShape2D" parent="."]
-position = Vector2(4, 0)
+position = Vector2(1.5, 0)
 shape = SubResource("RectangleShape2D_g60kr")
 
-[node name="bullet_sprite" type="Sprite2D" parent="."]
-texture = ExtResource("2_ccg0n")
+[node name="spark" type="AnimatedSprite2D" parent="."]
+position = Vector2(-4, 0)
+sprite_frames = SubResource("SpriteFrames_taf7w")
+frame_progress = 0.903891
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
 

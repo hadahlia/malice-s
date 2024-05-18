@@ -5,9 +5,11 @@ extends Node2D
 
 @onready var spawn_pos := $PlrSpawnPos
 @onready var respawn_timer := $RespawnTimer
-
+@onready var hud = $HUD
 
 @onready var kill_void = %kill_void
+
+#var score : int = 0
 
 
 #@onready var doggy := $Cammy/Ikaruga
@@ -17,12 +19,14 @@ var ikaruga = null
 signal respawn
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	hud.score = 0
 	spawn_doggy()
+	#hud.lives = lives
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	pass
+	hud.score += int(10 * delta)
 	#if ikaruga == null:
 		#_vibe_check()
 
@@ -34,9 +38,11 @@ func spawn_doggy():
 	self.add_child(doggy)
 	ikaruga = doggy
 	
+	hud.lives = lives
 	respawn.emit()
 
 func _vibe_check():
+	Global.score_multiplier = 0
 	print("the vibe check has counted: ", lives," lives")
 	if lives < 0:
 		pass
@@ -50,9 +56,11 @@ func _on_ikaruga_hit():
 
 func _on_respawn_timer_timeout():
 	#print("timer_timeout :D")
-	spawn_doggy()
+	
 	#inv_time.start()
 	lives -= 1
+	hud.score += 6000
+	spawn_doggy()
 
 #func _on_inv_timer_timeout():
 	#print("inv timer end!")

@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://bsty8jccr11nu"]
+
+[ext_resource type="FontFile" uid="uid://dvtfa5uxwot3n" path="res://sprite/ui/monogram.ttf" id="1_5f2no"]
+
+[resource]
+line_spacing = 5.0
+font = ExtResource("1_5f2no")
+font_size = 30
+shadow_size = 2
+shadow_color = Color(0.34902, 0, 0.215686, 1)

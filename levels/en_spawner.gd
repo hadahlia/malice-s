@@ -66,6 +66,7 @@ func _spawn_wave():
 
 func _on_slain():
 	print("slain triggered")
+	Global.score_multiplier += 1
 	#container.remove_child()
 	await get_tree().process_frame
 	if get_tree().has_group("enemies") == false:

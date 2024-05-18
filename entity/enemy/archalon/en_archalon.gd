@@ -48,6 +48,10 @@ func kill():
 	#print("slain emitted")
 	#get_parent().remove_child(self)
 	#remove_child()
+	#if score != null:
+		#score.score = score_provide
+	#Global.temp_score += score_provide
+	Global.temp_score += score_provide
 	_remove()
 	slain.emit()
 

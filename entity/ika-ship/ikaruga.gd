@@ -6,6 +6,9 @@ extends CharacterBody2D
 @export var shot_limit : int = 3
 @export var heat_limit : int
 @export var Bullet : PackedScene = load("res://entity/projectile/moon_slice.tscn")
+@export var multiplier : float
+
+@export var score_multiplier : int = 1
 
 @onready var hitbox := $NexusCore
 @onready var inv_timer = %InvTimer
@@ -23,7 +26,7 @@ var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 #var bullet_fade : PackedScene = preload("res://levels/effects/hit_fade.tscn")
 
 var shot_count : int
-var score : int = 0
+#var score : int = 0
 var heat : int = 0
 var bullet_type : int = 0
 var _canFire : bool
@@ -39,30 +42,34 @@ func _ready():
 	heat_bar._init_heat(heat, heat_limit)
 	heat_bar.hide()
 
-
-
-func get_input():
-	var input = Vector2()
-	if Input.is_action_pressed('right'):
-		input.x += 1
-	if Input.is_action_pressed('left'):
-		input.x -= 1
-	if Input.is_action_pressed('down'):
-		input.y += 1
-	if Input.is_action_pressed('up'):
-		input.y -= 1
-	return input
-
-
 func fire_0():
 	var b1 = Bullet.instantiate()
+	
 	b1.bullet_freed.connect(_on_bullet_freed)
+	
 	get_parent().add_child(b1)
+	
 	b1.transform = $Gun0.global_transform
-	b1.set_color(bullet_type)
-	b1.damage += heat * 0.1
+	
+	#b1.set_color(bullet_type)
+	var heat_mul = heat * multiplier
+	b1.damage += heat_mul
+	
 	print("DAMAGE: ",b1.damage)
 
+func devil_fire():
+	var b2 = Bullet.instantiate()
+	var b3 = Bullet.instantiate()
+	b2.bullet_freed.connect(_on_bullet_freed)
+	b3.bullet_freed.connect(_on_bullet_freed)
+	get_parent().add_child(b2)
+	get_parent().add_child(b3)
+	b2.transform = $Gun1.global_transform
+	b3.transform = $Gun2.global_transform
+	var heat_mul = heat * multiplier
+	b2.damage += heat_mul
+	b3.damage += heat_mul
+	
 func fire_lasers():
 	var l1 = Bullet.instantiate()
 	var l2 = Bullet.instantiate()
@@ -70,15 +77,17 @@ func fire_lasers():
 	get_parent().add_child(l2)
 	l1.transform = $LGun.global_transform
 	l2.transform = $RGun.global_transform
-	l1.set_color(bullet_type+2)
-	l2.set_color(bullet_type+2)
-	l1.damage += heat * 0.05
-	l2.damage += heat * 0.05
-	
+	#l1.set_color(bullet_type+2)
+	#l2.set_color(bullet_type+2)
+	var heat_mul = heat * multiplier
+	l1.damage += heat * multiplier
+	l2.damage += heat * multiplier
 
 func fire():
 	if heat <= heat_limit:
-		
+		if heat > heat_limit * 0.62:
+			#multiplier = multiplier * 1.3
+			devil_fire()
 		#print("shot limit: ", shot_limit)
 		fire_0()
 		fire_lasers()
@@ -91,13 +100,25 @@ func fire():
 		_canFire = false
 		shot_count += 1
 		
-		heat += 22
+		heat += 11
 		
 		heat_bar.heat = heat
 		#shot_limit = heat % heat_limit
 	else:
 		
 		hyperfusion_bomb()
+
+func get_input():
+	var input = Vector2()
+	if Input.is_action_pressed('right'):
+		input.x += 1
+	if Input.is_action_pressed('left'):
+		input.x -= 1
+	if Input.is_action_pressed('down'):
+		input.y += 1
+	if Input.is_action_pressed('up'):
+		input.y -= 1
+	return input
 
 func _process(delta):
 	
@@ -129,10 +150,11 @@ func _physics_process(delta):
 	if hor_direction != 0:
 		switch_dir(hor_direction)
 		update_anims(hor_direction)
+		hor_direction = 0
 	elif sprite_t.is_playing() or sprite_t.get_frame() != 0:
 		#if sprite_t.is_playing() or sprite_t.get_frame() == 5:
 		sprite_t.play_backwards("tilt")
-
+	
 	move_and_slide()
 	
 
@@ -161,7 +183,8 @@ func death():
 	queue_free()
 
 func _on_bullet_freed():
-	shot_count -= 1
+	if shot_count > 0:
+		shot_count -= 1
 
 func _on_nexus_core_body_entered(body):
 	death()
