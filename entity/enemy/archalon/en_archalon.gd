@@ -4,12 +4,15 @@ extends Area2D
 @export var score_provide : int = 1000
 @export var speed : float = 16.0
 
+@export var flash_mat : ShaderMaterial
+
 var theta : float = 0.0
 @export_range(0,2*PI) var alpha: float = 0.0
 
 @export var bull_node : PackedScene
 
 @onready var gun := $Gun
+@onready var gun_2 := $Gun2
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 
@@ -24,12 +27,18 @@ func get_vector(angle):
 
 func shoot(angle):
 	var bull = bull_node.instantiate()
+	var bull2 = bull_node.instantiate()
 	
 	bull.position = gun.global_position
 	bull.direction = get_vector(angle)
 	bull.set_property(bullet_variant)
 	
+	bull2.position = gun_2.global_position
+	bull2.direction = get_vector(angle)
+	bull2.set_property(bullet_variant)
+	
 	get_tree().current_scene.call_deferred("add_child", bull)
+	get_tree().current_scene.call_deferred("add_child", bull2)
 
 func _ready():
 	pass
@@ -66,6 +75,7 @@ func take_damage(amount):
 	var old_health = health
 	health -= amount
 	take_hit.emit(old_health, health)
+	
 	if health <= 0:
 		health = 0
 		kill()
@@ -75,6 +85,9 @@ func take_damage(amount):
 
 
 func _on_hurt_box_area_entered(area):
+	flash_mat.set_shader_parameter("flash", true)
+	await get_tree().create_timer(Global.FLASH_DUR)
+	flash_mat.set_shader_parameter("flash", false)
 	take_damage(area.damage)
 
 

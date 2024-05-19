@@ -5,6 +5,7 @@ extends CharacterBody2D
 #@export var acceleration : float = 0.1
 @export var shot_limit : int = 3
 @export var heat_limit : int
+@export var heat_coeff : float = 0.55
 @export var Bullet : PackedScene = load("res://entity/projectile/moon_slice.tscn")
 @export var multiplier : float
 
@@ -66,6 +67,9 @@ func devil_fire():
 	get_parent().add_child(b3)
 	b2.transform = $Gun1.global_transform
 	b3.transform = $Gun2.global_transform
+	var scale_var = Vector2(0.8, 1.0)
+	b2.scale = scale_var
+	b3.scale = scale_var
 	var heat_mul = heat * multiplier
 	b2.damage += heat_mul
 	b3.damage += heat_mul
@@ -85,7 +89,7 @@ func fire_lasers():
 
 func fire():
 	if heat <= heat_limit:
-		if heat > heat_limit * 0.62:
+		if heat > heat_limit * heat_coeff:
 			#multiplier = multiplier * 1.3
 			devil_fire()
 		#print("shot limit: ", shot_limit)
@@ -153,14 +157,14 @@ func _physics_process(delta):
 		hor_direction = 0
 	elif sprite_t.is_playing() or sprite_t.get_frame() != 0:
 		#if sprite_t.is_playing() or sprite_t.get_frame() == 5:
-		sprite_t.play_backwards("tilt")
+		sprite_t.play_backwards("new_tilt")
 	
 	move_and_slide()
 	
 
 func update_anims(hor_direction):
 	if sprite_t.get_frame() == 0 and !sprite_t.is_playing():
-		sprite_t.play("tilt")
+		sprite_t.play("new_tilt")
 
 func switch_dir(hor_direction):
 	if sprite_t.get_frame() == 0:

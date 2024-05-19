@@ -2,6 +2,8 @@ extends Node
 
 var level_id : int = 0
 
+const FLASH_DUR = 0.15
+
 #var score = 0
 
 var score_multiplier = 1

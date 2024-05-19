@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=16 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://bsty8jccr11nu" path="res://sprite/ui/monogramlabel.tres" id="2_njs4n"]
 [ext_resource type="PackedScene" uid="uid://bn20l7cjclmh6" path="res://levels/hangar/stage_hangar.tscn" id="4_rwf17"]
 [ext_resource type="PackedScene" uid="uid://58uwhr5waftp" path="res://levels/en_spawner.tscn" id="5_yfa6y"]
+[ext_resource type="PackedScene" uid="uid://cwdv04wh3gv70" path="res://entity/enemy/bullet_enemy.tscn" id="7_ddctd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m6u7c"]
 size = Vector2(632, 91.973)
@@ -23,7 +24,7 @@ size = Vector2(112.5, 876)
 size = Vector2(648, 66)
 
 [sub_resource type="Gradient" id="Gradient_qoetr"]
-offsets = PackedFloat32Array(0, 0.162879, 0.700758, 1)
+offsets = PackedFloat32Array(0, 0.272727, 0.731061, 1)
 colors = PackedColorArray(0, 0, 0, 1, 0.165089, 0.177676, 0.341478, 1, 0.695649, 0.888985, 0.831877, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_galjs"]
@@ -40,8 +41,9 @@ tonemap_white = 3.1
 glow_enabled = true
 glow_blend_mode = 0
 adjustment_enabled = true
-adjustment_contrast = 1.15
-adjustment_saturation = 0.75
+adjustment_brightness = 1.2
+adjustment_contrast = 0.95
+adjustment_saturation = 1.05
 adjustment_color_correction = SubResource("GradientTexture1D_galjs")
 
 [node name="Mission0" type="Node2D"]
@@ -135,6 +137,9 @@ scale = Vector2(0.6, 0.6)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mvocl")
+
+[node name="BulletEnemy" parent="." instance=ExtResource("7_ddctd")]
+position = Vector2(256, 248)
 
 [connection signal="area_entered" from="kill_void" to="." method="_on_kill_void_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

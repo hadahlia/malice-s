@@ -1,16 +1,30 @@
-[gd_scene load_steps=9 format=3 uid="uid://xtqqrnfji63r"]
+[gd_scene load_steps=14 format=3 uid="uid://xtqqrnfji63r"]
 
+[ext_resource type="Shader" path="res://entity/hit_flash.gdshader" id="1_djo78"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/en_archalon.gd" id="1_hefef"]
 [ext_resource type="PackedScene" uid="uid://cwdv04wh3gv70" path="res://entity/enemy/bullet_enemy.tscn" id="2_uqf72"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/state_machine.gd" id="3_i4sg0"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/Idle.gd" id="4_jp07h"]
+[ext_resource type="Texture2D" uid="uid://cbrrqkt8xovh7" path="res://sprite/ships/archeon.png" id="4_mjlnc"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/4Leaf.gd" id="5_se6s8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_bg0x0"]
+shader = ExtResource("1_djo78")
+shader_parameter/flash = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tanho"]
+shader = ExtResource("1_djo78")
+shader_parameter/flash = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cmh18"]
 radius = 18.8605
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp8px"]
+shader = ExtResource("1_djo78")
+shader_parameter/flash = false
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b3jbh"]
-size = Vector2(117.333, 208)
+size = Vector2(117.333, 152)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_meaay"]
 radius = 554.667
@@ -21,23 +35,26 @@ collision_mask = 0
 script = ExtResource("1_hefef")
 health = 840
 speed = 49.0
+flash_mat = SubResource("ShaderMaterial_bg0x0")
 alpha = 1.5
 bull_node = ExtResource("2_uqf72")
 
-[node name="ColorRect" type="Polygon2D" parent="."]
-color = Color(1, 0.901961, 0.388235, 1)
-polygon = PackedVector2Array(0, 96, 16, 69.3333, 16, 42.6667, 42.6667, 32, 58.6667, -112, 16, -85.3333, -16, -85.3333, -58.6667, -112, -42.6667, 32, -16, 42.6667, -16, 69.3333)
+[node name="body_albedo" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_tanho")
+scale = Vector2(0.594828, 0.594828)
+texture = ExtResource("4_mjlnc")
 
 [node name="HitBox" type="CollisionShape2D" parent="."]
 scale = Vector2(1.2725, 3.61391)
 shape = SubResource("CircleShape2D_cmh18")
 
 [node name="HurtBox" type="Area2D" parent="."]
+material = SubResource("ShaderMaterial_mp8px")
 collision_layer = 0
 collision_mask = 4
 
 [node name="HurtShape" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, -8)
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_b3jbh")
 
 [node name="FiringSpeed" type="Timer" parent="."]
@@ -47,7 +64,11 @@ wait_time = 0.05
 wait_time = 5.0
 
 [node name="Gun" type="Marker2D" parent="."]
-position = Vector2(0, 96)
+position = Vector2(-32, -24)
+rotation = 1.5708
+
+[node name="Gun2" type="Marker2D" parent="."]
+position = Vector2(32, -24)
 rotation = 1.5708
 
 [node name="temp" type="Label" parent="."]

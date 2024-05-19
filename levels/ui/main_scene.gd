@@ -32,6 +32,6 @@ func _on_level_select_pressed():
 func _on_level_1_pressed():
 	menu.hide()
 	level_select.hide()
-	Global.level_id = 1
+	#Global.level_id = 1
 	load_level("mission0")
 	#hud.show()
