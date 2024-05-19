@@ -34,9 +34,6 @@ func _physics_process(delta: float) -> void:
 		#queue_free()
 
 func hit_effect():
-	bullet_freed.emit()
-	queue_free()
-	
 	var hit_f1 := bullet_fade.instantiate()
 	hit_f1.position = global_position
 	get_parent().add_child(hit_f1)
@@ -48,6 +45,8 @@ func _on_body_entered(_body):
 
 func _on_area_entered(area):
 	#area.health -= damage
+	bullet_freed.emit()
+	queue_free()
 	hit_effect()
 
 

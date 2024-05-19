@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://8ughnu5tewm8"]
+[gd_scene load_steps=27 format=3 uid="uid://8ughnu5tewm8"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/ikaruga.gd" id="1_daaj3"]
 [ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/projectile/moon_slice.tscn" id="2_wqn08"]
@@ -6,8 +6,8 @@
 [ext_resource type="FontFile" uid="uid://dvtfa5uxwot3n" path="res://sprite/ui/monogram.ttf" id="3_w86ci"]
 [ext_resource type="Texture2D" uid="uid://b4jrdpckq6fva" path="res://sprite/ships/rai2.png" id="3_yd32l"]
 [ext_resource type="Script" path="res://levels/ui/heat_bar.gd" id="4_10dm8"]
+[ext_resource type="Texture2D" uid="uid://bf4maltnavbu5" path="res://sprite/ships/myraidit.png" id="6_3x6tp"]
 [ext_resource type="AudioStream" uid="uid://bttf3emm8dprt" path="res://audio/poly/Laser_Shoot22.wav" id="8_aj7v8"]
-[ext_resource type="PackedScene" uid="uid://dd50gs7cve3bo" path="res://levels/effects/Binker.tscn" id="9_0mgsf"]
 [ext_resource type="Script" path="res://audio/pitch_randomizer.gd" id="9_v1lqx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rm3hk"]
@@ -30,31 +30,28 @@ anti_aliasing_size = 1.157
 texture = ExtResource("3_anwfs")
 region_rect = Rect2(0, 0, 105, 21)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7eqr3"]
-load_path = "res://.godot/imported/myraidit.png-865f0d99ded09fd7af59cb128d1e99ec.bptc.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0t60"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_kox6v"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(0, 0, 135, 156)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f51ry"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng14h"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(135, 0, 135, 156)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a8hu4"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_w22vx"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(270, 0, 135, 156)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pnurn"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_g5x4s"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(405, 0, 135, 156)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1prke"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0a2d"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(540, 0, 135, 156)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mn0hr"]
-atlas = SubResource("CompressedTexture2D_7eqr3")
+[sub_resource type="AtlasTexture" id="AtlasTexture_74wt2"]
+atlas = ExtResource("6_3x6tp")
 region = Rect2(675, 0, 135, 156)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iaqm4"]
@@ -85,22 +82,22 @@ region = Rect2(675, 0, 135, 156)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x0t60")
+"texture": SubResource("AtlasTexture_kox6v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f51ry")
+"texture": SubResource("AtlasTexture_ng14h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_a8hu4")
+"texture": SubResource("AtlasTexture_w22vx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pnurn")
+"texture": SubResource("AtlasTexture_g5x4s")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1prke")
+"texture": SubResource("AtlasTexture_e0a2d")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mn0hr")
+"texture": SubResource("AtlasTexture_74wt2")
 }],
 "loop": false,
 "name": &"new_tilt",
@@ -141,7 +138,7 @@ scale = Vector2(0.5, 0.5)
 collision_mask = 16
 script = ExtResource("1_daaj3")
 speed = 460
-shot_limit = 5
+shot_limit = 4
 heat_limit = 666
 Bullet = ExtResource("2_wqn08")
 multiplier = 0.04
@@ -208,7 +205,7 @@ one_shot = true
 
 [node name="InvTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 1.2
+wait_time = 6.0
 one_shot = true
 autostart = true
 
@@ -225,11 +222,10 @@ visible = false
 
 [node name="FiringSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_aj7v8")
+pitch_scale = 0.98
 max_distance = 9999.0
 max_polyphony = 8
 script = ExtResource("9_v1lqx")
-
-[node name="Binker" parent="." instance=ExtResource("9_0mgsf")]
 
 [connection signal="timeout" from="FireCooldown" to="." method="_on_fire_cooldown_timeout"]
 [connection signal="timeout" from="VentDelay" to="." method="_on_vent_delay_timeout"]

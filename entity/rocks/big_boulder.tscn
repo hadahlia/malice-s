@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://b4yi2yk6d67tf"]
+
+[ext_resource type="Shader" path="res://entity/hit_flash.gdshader" id="1_spv8u"]
+[ext_resource type="Script" path="res://entity/rocks/rock_ai.gd" id="2_213x4"]
+[ext_resource type="Texture2D" uid="uid://c7t77e4wuk3a8" path="res://sprite/rock/l_rock_1.png" id="3_prxa1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qhdl2"]
+shader = ExtResource("1_spv8u")
+shader_parameter/flash = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tanho"]
+shader = ExtResource("1_spv8u")
+shader_parameter/flash = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_j6ged"]
+radius = 70.0643
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mp8px"]
+shader = ExtResource("1_spv8u")
+shader_parameter/flash = false
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ig6ar"]
+radius = 89.0056
+
+[node name="BigRock0" type="Area2D" groups=["enemies"]]
+material = SubResource("ShaderMaterial_qhdl2")
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_213x4")
+health = 1600
+score_provide = 5000
+speed = 39.0
+rotation_speed = 1.8
+
+[node name="body_albedo" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_tanho")
+use_parent_material = true
+position = Vector2(-2.38419e-07, 4.76837e-07)
+scale = Vector2(0.65625, 0.676897)
+texture = ExtResource("3_prxa1")
+
+[node name="HitBox" type="CollisionShape2D" parent="."]
+position = Vector2(-8, 0)
+shape = SubResource("CircleShape2D_j6ged")
+
+[node name="HurtBox" type="Area2D" parent="."]
+material = SubResource("ShaderMaterial_mp8px")
+collision_layer = 0
+collision_mask = 4
+
+[node name="HurtShape" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(-8, 0)
+shape = SubResource("CircleShape2D_ig6ar")
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]

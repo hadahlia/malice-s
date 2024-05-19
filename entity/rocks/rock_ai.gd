@@ -3,48 +3,30 @@ extends Area2D
 @export var health : int = 420
 @export var score_provide : int = 1000
 @export var speed : float = 16.0
+@export var rotation_speed : float = 1.5
 
 #@export var flash_mat : ShaderMaterial
 
-var theta : float = 0.0
-@export_range(0,2*PI) var alpha: float = 0.0
+#var theta : float = 0.0
+#@export_range(0,2*PI) var alpha: float = 0.0
 
-@export var bull_node : PackedScene
-
-@onready var gun := $Gun
-@onready var gun_2 := $Gun2
+#@export var bull_node : PackedScene
+#
+#@onready var gun := $Gun
+#@onready var gun_2 := $Gun2
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 
-var bullet_variant : int = 2
-
 signal take_hit
 signal slain
-
-func get_vector(angle):
-	theta = angle + alpha
-	return Vector2(cos(theta), sin(theta))
-
-func shoot(angle):
-	var bull = bull_node.instantiate()
-	var bull2 = bull_node.instantiate()
-	
-	bull.position = gun.global_position
-	bull.direction = get_vector(angle)
-	bull.set_property(bullet_variant)
-	
-	bull2.position = gun_2.global_position
-	bull2.direction = get_vector(angle)
-	bull2.set_property(bullet_variant)
-	
-	get_tree().current_scene.call_deferred("add_child", bull)
-	get_tree().current_scene.call_deferred("add_child", bull2)
 
 func _ready():
 	material.set_shader_parameter("flash", false)
 
 func _physics_process(delta: float) -> void:
 	position += transform.y * speed * delta
+	global_position -= transform.x * (speed*0.5) * delta
+	rotation += rotation_speed * delta
 
 func explode():
 	var explosion_instance = explosion.instantiate() as Node2D
@@ -89,12 +71,3 @@ func take_damage(amount):
 func _on_hurt_box_area_entered(area):
 	
 	take_damage(area.damage)
-
-
-func _on_firing_speed_timeout():
-	shoot(theta)
-
-
-
-#func _on_take_hit():
-	#

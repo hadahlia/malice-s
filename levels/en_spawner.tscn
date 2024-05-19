@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://58uwhr5waftp"]
+[gd_scene load_steps=4 format=3 uid="uid://58uwhr5waftp"]
 
 [ext_resource type="Script" path="res://levels/en_spawner.gd" id="1_tqhgi"]
 [ext_resource type="Script" path="res://entity/enemy/level_data.gd" id="2_jg2e3"]
-[ext_resource type="Script" path="res://levels/stage/level_0.gd" id="3_1josx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7rijn"]
 size = Vector2(840, 880)
@@ -15,15 +14,7 @@ script = ExtResource("1_tqhgi")
 script = ExtResource("2_jg2e3")
 
 [node name="SpawnTimer" type="Timer" parent="DebugLvl"]
-wait_time = 12.0
-one_shot = true
-
-[node name="Level0" type="Node2D" parent="."]
-script = ExtResource("3_1josx")
-
-[node name="SpawnTimer" type="Timer" parent="Level0"]
-unique_name_in_owner = true
-wait_time = 10.0
+wait_time = 8.0
 one_shot = true
 
 [node name="Container" type="Node2D" parent="."]
@@ -49,4 +40,3 @@ position = Vector2(0, 616)
 shape = SubResource("RectangleShape2D_7rijn")
 
 [connection signal="timeout" from="DebugLvl/SpawnTimer" to="DebugLvl" method="_on_spawn_timer_timeout"]
-[connection signal="timeout" from="Level0/SpawnTimer" to="Level0" method="_on_spawn_timer_timeout"]

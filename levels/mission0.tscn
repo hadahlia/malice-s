@@ -1,12 +1,41 @@
-[gd_scene load_steps=16 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=22 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
 [ext_resource type="Script" path="res://levels/HUD.gd" id="2_1m0xy"]
 [ext_resource type="LabelSettings" uid="uid://bsty8jccr11nu" path="res://sprite/ui/monogramlabel.tres" id="2_njs4n"]
 [ext_resource type="PackedScene" uid="uid://bn20l7cjclmh6" path="res://levels/hangar/stage_hangar.tscn" id="4_rwf17"]
+[ext_resource type="Script" path="res://levels/ui/death_screen.gd" id="5_3ko3w"]
+[ext_resource type="FontFile" uid="uid://dvtfa5uxwot3n" path="res://sprite/ui/monogram.ttf" id="5_imm4g"]
 [ext_resource type="PackedScene" uid="uid://58uwhr5waftp" path="res://levels/en_spawner.tscn" id="5_yfa6y"]
-[ext_resource type="PackedScene" uid="uid://cwdv04wh3gv70" path="res://entity/enemy/bullet_enemy.tscn" id="7_ddctd"]
+[ext_resource type="AudioStream" uid="uid://bankufesgu5li" path="res://audio/poly/248839-bbe03917-e141-4474-8418-df7473073dd5.mp3" id="7_y8tca"]
+[ext_resource type="FontFile" uid="uid://bu3e7oy3n1peb" path="res://sprite/ui/BlackCapsRegular-wgA2.ttf" id="8_agg2q"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_xbjq3"]
+line_spacing = 5.0
+font = ExtResource("8_agg2q")
+font_size = 42
+font_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+outline_size = 3
+outline_color = Color(0.882353, 0.6, 0.396078, 1)
+shadow_size = 3
+shadow_color = Color(0.490196, 0.0156863, 0, 1)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="LabelSettings" id="LabelSettings_styuo"]
+line_spacing = 5.0
+font = ExtResource("8_agg2q")
+font_size = 42
+font_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+outline_size = 3
+outline_color = Color(0.419608, 0.878431, 0.396078, 1)
+shadow_size = 3
+shadow_color = Color(0.301961, 0, 0.490196, 1)
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="Theme" id="Theme_7a2qo"]
+default_font = ExtResource("5_imm4g")
+default_font_size = 36
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m6u7c"]
 size = Vector2(632, 91.973)
@@ -34,7 +63,6 @@ use_hdr = true
 [sub_resource type="Environment" id="Environment_mvocl"]
 background_mode = 3
 background_canvas_max_layer = 100
-ambient_light_source = 2
 tonemap_mode = 2
 tonemap_exposure = 0.9
 tonemap_white = 3.1
@@ -87,6 +115,171 @@ label_settings = ExtResource("2_njs4n")
 visible = false
 layout_mode = 2
 
+[node name="PauseScreen" type="Control" parent="."]
+visible = false
+visibility_layer = 524289
+z_index = 4096
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 296.0
+offset_right = 336.0
+offset_bottom = 40.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Label" type="Label" parent="PauseScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = 308.0
+offset_right = 228.0
+offset_bottom = 417.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "PAUSED"
+label_settings = SubResource("LabelSettings_xbjq3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DeathScreen" type="Control" parent="."]
+visible = false
+visibility_layer = 524289
+z_index = 4096
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 296.0
+offset_right = 336.0
+offset_bottom = 40.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("5_3ko3w")
+
+[node name="DeathStatus" type="Label" parent="DeathScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = 260.0
+offset_right = 234.0
+offset_bottom = 369.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "YOU ARE DEAD.
+
+?RESTART?"
+label_settings = SubResource("LabelSettings_styuo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeathScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = 476.0
+offset_right = 19.0
+offset_bottom = 542.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DeathScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 2
+
+[node name="cont_btn" type="Button" parent="DeathScreen/VBoxContainer/MarginContainer"]
+layout_mode = 2
+theme = SubResource("Theme_7a2qo")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.858824, 0.658824, 1)
+theme_override_colors/font_outline_color = Color(0.470588, 0, 0.831373, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_imm4g")
+theme_override_font_sizes/font_size = 40
+text = "RETRY"
+
+[node name="MarginContainer2" type="MarginContainer" parent="DeathScreen/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 4
+
+[node name="quit_btn2" type="Button" parent="DeathScreen/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme = SubResource("Theme_7a2qo")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0.858824, 0.658824, 1)
+theme_override_colors/font_outline_color = Color(0.470588, 0, 0.831373, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("5_imm4g")
+theme_override_font_sizes/font_size = 40
+text = "QUIT"
+
+[node name="MarginContainer" type="MarginContainer" parent="DeathScreen"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VictoryScreen" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 312.0
+offset_right = 352.0
+offset_bottom = 40.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VictoryScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = 245.0
+offset_right = 240.0
+offset_bottom = 336.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="StatusV" type="Label" parent="VictoryScreen/MarginContainer"]
+layout_mode = 2
+text = "YEE-HAW,
+SPACE COWBOY!"
+label_settings = SubResource("LabelSettings_styuo")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="VictoryScreen"]
+stream = ExtResource("7_y8tca")
+volume_db = -11.818
+
 [node name="InfiniteVoidBG" parent="." instance=ExtResource("1_nne0f")]
 
 [node name="StageHangar" parent="." instance=ExtResource("4_rwf17")]
@@ -133,13 +326,14 @@ one_shot = true
 
 [node name="PlrSpawnPos" type="Marker2D" parent="."]
 position = Vector2(296, 704)
-scale = Vector2(0.6, 0.6)
+scale = Vector2(0.5, 0.5)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mvocl")
 
-[node name="BulletEnemy" parent="." instance=ExtResource("7_ddctd")]
-position = Vector2(256, 248)
-
+[connection signal="destroyed" from="." to="." method="_on_destroyed"]
+[connection signal="victory" from="." to="." method="_on_victory"]
+[connection signal="pressed" from="DeathScreen/VBoxContainer/MarginContainer/cont_btn" to="DeathScreen" method="_on_cont_btn_pressed"]
+[connection signal="pressed" from="DeathScreen/VBoxContainer/MarginContainer2/quit_btn2" to="DeathScreen" method="_on_quit_btn_2_pressed"]
 [connection signal="area_entered" from="kill_void" to="." method="_on_kill_void_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]

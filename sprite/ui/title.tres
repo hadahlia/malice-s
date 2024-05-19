@@ -1,0 +1,14 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dhtvwsreuixrs"]
+
+[ext_resource type="FontFile" uid="uid://bu3e7oy3n1peb" path="res://sprite/ui/BlackCapsRegular-wgA2.ttf" id="1_78ml5"]
+
+[resource]
+line_spacing = 5.0
+font = ExtResource("1_78ml5")
+font_size = 60
+font_color = Color(0.0705882, 0.0705882, 0.0705882, 1)
+outline_size = 3
+outline_color = Color(0.0313726, 0.72549, 1, 1)
+shadow_size = 3
+shadow_color = Color(0, 0.243137, 0.490196, 1)
+shadow_offset = Vector2(3, 3)

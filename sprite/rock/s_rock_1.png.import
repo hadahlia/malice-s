@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsgv57pb3glni"
-path.bptc="res://.godot/imported/myraidit.png-865f0d99ded09fd7af59cb128d1e99ec.bptc.ctex"
+uid="uid://dftt0kpgijgok"
+path.bptc="res://.godot/imported/s_rock_1.png-4ceac2ec363c81a38582d417ee8c1802.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://sprite/ships/myraidit.png"
-dest_files=["res://.godot/imported/myraidit.png-865f0d99ded09fd7af59cb128d1e99ec.bptc.ctex"]
+source_file="res://sprite/rock/s_rock_1.png"
+dest_files=["res://.godot/imported/s_rock_1.png-4ceac2ec363c81a38582d417ee8c1802.bptc.ctex"]
 
 [params]
 

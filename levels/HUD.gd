@@ -1,8 +1,11 @@
 extends Control
 class_name UI
 
+#@onready var lives_label = %Lives
+#@onready var score_label = %Score
 @onready var lives_label = %Lives
 @onready var score_label = %Score
+
 
 
 var lives = 0:

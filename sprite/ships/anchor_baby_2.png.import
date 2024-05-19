@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsgv57pb3glni"
-path.bptc="res://.godot/imported/myraidit.png-865f0d99ded09fd7af59cb128d1e99ec.bptc.ctex"
+uid="uid://d3wyeok1108bl"
+path.bptc="res://.godot/imported/anchor_baby_2.png-0dcca4e3e6989fe884f0e3ff8e956176.bptc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://sprite/ships/myraidit.png"
-dest_files=["res://.godot/imported/myraidit.png-865f0d99ded09fd7af59cb128d1e99ec.bptc.ctex"]
+source_file="res://sprite/ships/anchor_baby_2.png"
+dest_files=["res://.godot/imported/anchor_baby_2.png-0dcca4e3e6989fe884f0e3ff8e956176.bptc.ctex"]
 
 [params]
 

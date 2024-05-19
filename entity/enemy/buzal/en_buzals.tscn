@@ -1,16 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://b6jfexitxfv2q"]
 
 [ext_resource type="Script" path="res://entity/enemy/buzal/en_buzals.gd" id="1_c5v0h"]
-[ext_resource type="Texture2D" uid="uid://cxogc0volnpcj" path="res://sprite/ships/bzalts.png" id="2_s55p6"]
+[ext_resource type="Texture2D" uid="uid://d3wyeok1108bl" path="res://sprite/ships/anchor_baby_2.png" id="2_crsr6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_63qdt"]
-radius = 27.0185
+radius = 16.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ugr5m"]
-size = Vector2(112, 120)
+size = Vector2(48, 48)
 
-[node name="EnBuzal" type="Area2D" groups=["enemies"]]
-scale = Vector2(0.3, 0.3)
+[node name="EnBeizal" type="Area2D" groups=["enemies"]]
 collision_layer = 2
 collision_mask = 0
 script = ExtResource("1_c5v0h")
@@ -23,15 +22,15 @@ shape = SubResource("CircleShape2D_63qdt")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 light_mask = 2
 visibility_layer = 2
-scale = Vector2(0.9, 0.9)
-texture = ExtResource("2_s55p6")
+use_parent_material = true
+scale = Vector2(0.352187, 0.352187)
+texture = ExtResource("2_crsr6")
 
 [node name="HurtBox" type="Area2D" parent="."]
-collision_layer = 0
+collision_layer = 8
 collision_mask = 4
 
 [node name="HurtShape" type="CollisionShape2D" parent="HurtBox"]
-position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_ugr5m")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

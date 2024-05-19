@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dd50gs7cve3bo"]
+
+[ext_resource type="Script" path="res://levels/effects/binker.gd" id="1_gaqgm"]
+
+[node name="Binker" type="Node"]
+script = ExtResource("1_gaqgm")
+
+[node name="BinkTime" type="Timer" parent="."]
+wait_time = 0.15
+
+[node name="Duration" type="Timer" parent="."]
+
+[connection signal="timeout" from="BinkTime" to="." method="_on_bink_time_timeout"]
+[connection signal="timeout" from="Duration" to="." method="_on_duration_timeout"]

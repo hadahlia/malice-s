@@ -19,7 +19,7 @@ var cur_lvl : Node2D
 var e : Array[PackedScene]
 
 func _ready():
-	cur_lvl = get_child(Global.level_id)
+	cur_lvl = get_child(0)
 	#spawn_timer.start()
 	cur_lvl._set_level_data()
 
@@ -50,6 +50,7 @@ func _spawn_wave():
 	else:
 		print("max wave reached! freeing timer...")
 		cur_lvl.spawn_timer.queue_free()
+		owner.victory.emit()
 		#spawn_timer.queue_free()
 		#IMPLEMENT BOSS WAVE LOGIC?
 
@@ -68,7 +69,7 @@ func _on_slain():
 	print("slain triggered")
 	Global.score_multiplier += 1
 	#container.remove_child()
-	await get_tree().process_frame
+	await get_tree().create_timer(0.15).timeout
 	if get_tree().has_group("enemies") == false:
 		print("FINALLY")
 		#cur_lvl.spawn_timer.stop()

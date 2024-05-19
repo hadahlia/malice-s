@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwdv04wh3gv70"]
+[gd_scene load_steps=7 format=3 uid="uid://cwdv04wh3gv70"]
 
 [ext_resource type="Script" path="res://entity/enemy/bullet_enemy.gd" id="1_p3gi4"]
+[ext_resource type="Texture2D" uid="uid://q4nenyop4p8a" path="res://sprite/fx/01.png" id="2_r6a48"]
 [ext_resource type="Texture2D" uid="uid://bkop86h540ddt" path="res://sprite/fx/02.png" id="3_owfu5"]
-[ext_resource type="Texture2D" uid="uid://cqyb0kaodqfuq" path="res://sprite/fx/13_b.png" id="3_qng8b"]
+[ext_resource type="Texture2D" uid="uid://dg3eaddtbji3n" path="res://sprite/fx/08.png" id="4_pgl0p"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_n5ep1"]
 blend_mode = 1
@@ -15,12 +16,12 @@ light_mask = 33
 visibility_layer = 33
 z_index = 2
 material = SubResource("CanvasItemMaterial_n5ep1")
-scale = Vector2(0.8, 0.8)
+scale = Vector2(0.6, 0.6)
 collision_layer = 32
 collision_mask = 0
 monitoring = false
 script = ExtResource("1_p3gi4")
-texture_array = Array[Texture2D]([ExtResource("3_qng8b"), ExtResource("3_owfu5")])
+texture_array = Array[Texture2D]([ExtResource("2_r6a48"), ExtResource("3_owfu5"), ExtResource("4_pgl0p")])
 speed = 300
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]

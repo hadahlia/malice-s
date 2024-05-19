@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bf0yk7ridwg6m"]
+[gd_scene load_steps=12 format=3 uid="uid://bf0yk7ridwg6m"]
 
 [ext_resource type="Script" path="res://levels/effects/hit_fade.gd" id="1_xijk1"]
 [ext_resource type="Texture2D" uid="uid://onpve7uy68p0" path="res://sprite/fx/hits/hits-2-1.png" id="2_u4xrc"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://dvnx6w4svms7a" path="res://sprite/fx/hits/hits-2-5.png" id="6_s4yp4"]
 [ext_resource type="Texture2D" uid="uid://cusopfotkb1vu" path="res://sprite/fx/hits/hits-2-6.png" id="7_gd7yh"]
 [ext_resource type="Texture2D" uid="uid://dfcfpgg0vhc48" path="res://sprite/fx/hits/hits-2-7.png" id="8_6t8pp"]
+[ext_resource type="AudioStream" uid="uid://ce2h3i7eosxgo" path="res://audio/poly/e_hit.wav" id="9_mtacu"]
+[ext_resource type="Script" path="res://audio/pitch_randomizer.gd" id="10_uat4r"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_px2vd"]
 animations = [{
@@ -45,5 +47,12 @@ script = ExtResource("1_xijk1")
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_px2vd")
 animation = &"hit_fade"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_mtacu")
+volume_db = -10.046
+pitch_scale = 0.91
+max_polyphony = 3
+script = ExtResource("10_uat4r")
 
 [connection signal="animation_finished" from="hit_fx" to="." method="_on_hit_fx_animation_finished"]

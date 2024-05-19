@@ -15,6 +15,8 @@ extends CharacterBody2D
 @onready var inv_timer = %InvTimer
 @onready var vent_delay = $VentDelay
 @onready var heat_bar = $HeatBar
+@onready var binker = $Binker
+
 
 @onready var sprite_t := $SpriteT
 
@@ -35,6 +37,7 @@ var _canFire : bool
 var vent : bool = false
 
 signal hit
+signal pause
 
 func _ready():
 	#print("invincibility autostart")
@@ -42,6 +45,7 @@ func _ready():
 	hitbox.hide()
 	heat_bar._init_heat(heat, heat_limit)
 	heat_bar.hide()
+	binker.start_bink(self, inv_timer.wait_time)
 
 func fire_0():
 	var b1 = Bullet.instantiate()
@@ -56,7 +60,7 @@ func fire_0():
 	var heat_mul = heat * multiplier
 	b1.damage += heat_mul
 	
-	print("DAMAGE: ",b1.damage)
+	#print("DAMAGE: ",b1.damage)
 
 func devil_fire():
 	var b2 = Bullet.instantiate()
@@ -95,7 +99,7 @@ func fire():
 		#print("shot limit: ", shot_limit)
 		fire_0()
 		fire_lasers()
-		fire_sfx.play()
+		fire_sfx.r_play()
 		#await(get_tree()).create_timer(0.5, true)
 		$FireCooldown.start()
 		vent_delay.start()
@@ -128,6 +132,8 @@ func _process(delta):
 	
 	if Input.is_action_pressed("fire") and _canFire and shot_count < shot_limit:
 		fire()
+	if Input.is_action_just_pressed("pause"):
+		pause.emit()
 		
 	if vent and heat > 0:
 		#print(heat)
