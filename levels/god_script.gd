@@ -10,6 +10,10 @@ extends Node2D
 @onready var death_screen = $DeathScreen
 @onready var victory_screen = $VictoryScreen
 @onready var v_sound = $VictoryScreen/AudioStreamPlayer
+@onready var ost = $BG
+
+var music_position : float = 0.0
+
 
 
 
@@ -59,9 +63,14 @@ func _on_pause():
 	if paused:
 		pause_screen.hide()
 		Engine.time_scale = 1
+		ost.play(music_position)
+		#ost.seek()
 	else:
+		music_position = ost.get_playback_position()
+		ost.stop()
 		pause_screen.show()
 		Engine.time_scale = 0
+		
 	paused = !paused
 
 func _vibe_check():
@@ -102,12 +111,25 @@ func _on_destroyed():
 	if paused:
 		death_screen.hide()
 		Engine.time_scale = 1
+		#ost.resume()
 	else:
 		death_screen.show()
 		Engine.time_scale = 0
+		#ost.pause()
 	paused = !paused
 
 
 func _on_victory():
+	death_screen.queue_free()
 	victory_screen.show()
 	v_sound.play()
+	if ikaruga != null:
+		ikaruga.hyperfusion_bomb()
+		await get_tree().create_timer(0.3).timeout
+	for i in lives:
+		hud.score += 1000 * multiplier_inherit
+		lives -= 1
+
+
+func _on_bg_finished():
+	victory.emit()

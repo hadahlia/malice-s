@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://8ughnu5tewm8"]
+[gd_scene load_steps=32 format=3 uid="uid://8ughnu5tewm8"]
 
 [ext_resource type="Script" path="res://entity/ika-ship/ikaruga.gd" id="1_daaj3"]
 [ext_resource type="PackedScene" uid="uid://bhsqtqwuv8o8i" path="res://entity/projectile/moon_slice.tscn" id="2_wqn08"]
@@ -6,7 +6,9 @@
 [ext_resource type="FontFile" uid="uid://dvtfa5uxwot3n" path="res://sprite/ui/monogram.ttf" id="3_w86ci"]
 [ext_resource type="Texture2D" uid="uid://b4jrdpckq6fva" path="res://sprite/ships/rai2.png" id="3_yd32l"]
 [ext_resource type="Script" path="res://levels/ui/heat_bar.gd" id="4_10dm8"]
+[ext_resource type="Shader" path="res://entity/ika-ship/bullet_eatr.gdshader" id="7_dp7h1"]
 [ext_resource type="AudioStream" uid="uid://bttf3emm8dprt" path="res://audio/poly/Laser_Shoot22.wav" id="8_aj7v8"]
+[ext_resource type="Texture2D" uid="uid://ilopag6muatl" path="res://sprite/fx/polaura.png" id="8_cgvjf"]
 [ext_resource type="PackedScene" uid="uid://dd50gs7cve3bo" path="res://levels/effects/Binker.tscn" id="9_0mgsf"]
 [ext_resource type="Script" path="res://audio/pitch_randomizer.gd" id="9_v1lqx"]
 
@@ -133,6 +135,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_427sm"]
 radius = 37.5309
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_drp1w"]
+radius = 1905.08
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_w4vuc"]
+shader = ExtResource("7_dp7h1")
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_237g1"]
 radius = 10.1351
 
@@ -208,9 +216,21 @@ one_shot = true
 
 [node name="InvTimer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 1.2
+wait_time = 1.8
 one_shot = true
 autostart = true
+
+[node name="BulletEatr" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletEatr"]
+shape = SubResource("CircleShape2D_drp1w")
+
+[node name="Sprite2D" type="Sprite2D" parent="BulletEatr"]
+material = SubResource("ShaderMaterial_w4vuc")
+scale = Vector2(2.64063, 2.64063)
+texture = ExtResource("8_cgvjf")
 
 [node name="NexusCore" type="Area2D" parent="."]
 collision_mask = 34
@@ -234,5 +254,6 @@ script = ExtResource("9_v1lqx")
 [connection signal="timeout" from="FireCooldown" to="." method="_on_fire_cooldown_timeout"]
 [connection signal="timeout" from="VentDelay" to="." method="_on_vent_delay_timeout"]
 [connection signal="timeout" from="InvTimer" to="." method="_on_inv_timer_timeout"]
+[connection signal="area_entered" from="BulletEatr" to="." method="_on_bullet_eatr_area_entered"]
 [connection signal="area_entered" from="NexusCore" to="." method="_on_nexus_core_area_entered"]
 [connection signal="body_entered" from="NexusCore" to="." method="_on_nexus_core_body_entered"]

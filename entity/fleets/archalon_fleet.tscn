@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://2hvxxraw14q2"]
+
+[ext_resource type="PackedScene" uid="uid://xtqqrnfji63r" path="res://entity/enemy/archalon/en_archalon.tscn" id="1_k1vgl"]
+[ext_resource type="Shader" path="res://entity/hit_flash.gdshader" id="2_yabtk"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1p0nj"]
+resource_local_to_scene = true
+shader = ExtResource("2_yabtk")
+shader_parameter/flash = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kb2ff"]
+shader = ExtResource("2_yabtk")
+shader_parameter/flash = false
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rufmy"]
+shader = ExtResource("2_yabtk")
+shader_parameter/flash = false
+
+[node name="ArchalonFleet" type="Node2D"]
+
+[node name="EnArchalon" parent="." instance=ExtResource("1_k1vgl")]
+material = SubResource("ShaderMaterial_1p0nj")
+
+[node name="EnArchalon2" parent="." instance=ExtResource("1_k1vgl")]
+material = SubResource("ShaderMaterial_kb2ff")
+position = Vector2(128, -128)
+
+[node name="EnArchalon3" parent="." instance=ExtResource("1_k1vgl")]
+material = SubResource("ShaderMaterial_rufmy")
+position = Vector2(0, -192)

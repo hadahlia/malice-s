@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://58uwhr5waftp"]
+
+[ext_resource type="Script" path="res://levels/en_spawner.gd" id="1_tqhgi"]
+[ext_resource type="Script" path="res://entity/enemy/level_data.gd" id="2_jg2e3"]
+[ext_resource type="PackedScene" uid="uid://2hvxxraw14q2" path="res://entity/fleets/archalon_fleet.tscn" id="4_ugyll"]
+[ext_resource type="Script" path="res://entity/fleets/archalon_fleet.gd" id="5_t8fxc"]
+
+[sub_resource type="Curve2D" id="Curve2D_mlsar"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 152, -128, 0, 0, 0, 0, 96, 144, 0, 0, 0, 0, 552, 128, 0, 0, 0, 0, 544, 288, 0, 0, 0, 0, 72, 272, 0, 0, 0, 0, 168, 528, 0, 0, 0, 0, 312, 384, 0, 0, 0, 0, 296, 896)
+}
+point_count = 8
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7rijn"]
+size = Vector2(840, 880)
+
+[node name="EnSpawner" type="Node2D"]
+position = Vector2(312, -192)
+script = ExtResource("1_tqhgi")
+
+[node name="DebugLvl" type="Node2D" parent="."]
+script = ExtResource("2_jg2e3")
+
+[node name="SpawnTimer" type="Timer" parent="DebugLvl"]
+wait_time = 8.0
+one_shot = true
+
+[node name="Container" type="Node2D" parent="."]
+position = Vector2(-312, 192)
+
+[node name="HeavyPath" type="Path2D" parent="Container"]
+curve = SubResource("Curve2D_mlsar")
+
+[node name="H_1" type="PathFollow2D" parent="Container/HeavyPath"]
+position = Vector2(152, -128)
+rotates = false
+loop = false
+
+[node name="ArchalonFleet" parent="Container/HeavyPath/H_1" instance=ExtResource("4_ugyll")]
+script = ExtResource("5_t8fxc")
+
+[node name="LaneL" type="Marker2D" parent="."]
+position = Vector2(-160, 64)
+
+[node name="LaneM" type="Marker2D" parent="."]
+position = Vector2(0, 64)
+
+[node name="LaneR" type="Marker2D" parent="."]
+position = Vector2(160, 64)
+
+[node name="WakeZone" type="Area2D" parent="."]
+visible = false
+position = Vector2(0, -224)
+collision_layer = 0
+collision_mask = 2
+
+[node name="WakeShape" type="CollisionShape2D" parent="WakeZone"]
+position = Vector2(0, 616)
+shape = SubResource("RectangleShape2D_7rijn")
+
+[connection signal="timeout" from="DebugLvl/SpawnTimer" to="DebugLvl" method="_on_spawn_timer_timeout"]

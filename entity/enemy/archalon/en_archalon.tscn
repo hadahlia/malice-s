@@ -1,23 +1,129 @@
-[gd_scene load_steps=15 format=3 uid="uid://xtqqrnfji63r"]
+[gd_scene load_steps=14 format=3 uid="uid://xtqqrnfji63r"]
 
 [ext_resource type="Shader" path="res://entity/hit_flash.gdshader" id="1_djo78"]
-[ext_resource type="Script" path="res://entity/enemy/archalon/en_archalon.gd" id="1_hefef"]
 [ext_resource type="PackedScene" uid="uid://cwdv04wh3gv70" path="res://entity/enemy/bullet_enemy.tscn" id="2_uqf72"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/state_machine.gd" id="3_i4sg0"]
 [ext_resource type="Script" path="res://entity/enemy/archalon/Idle.gd" id="4_jp07h"]
 [ext_resource type="Texture2D" uid="uid://cbrrqkt8xovh7" path="res://sprite/ships/archeon.png" id="4_mjlnc"]
-[ext_resource type="Script" path="res://entity/enemy/archalon/4Leaf.gd" id="5_se6s8"]
+[ext_resource type="Script" path="res://entity/enemy/archalon/LaserSpir.gd" id="7_mefig"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qhdl2"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2dvtr"]
+resource_local_to_scene = true
 shader = ExtResource("1_djo78")
 shader_parameter/flash = false
+
+[sub_resource type="GDScript" id="GDScript_dxmvc"]
+script/source = "extends Area2D
+
+@export var health : int = 420
+@export var score_provide : int = 1000
+@export var speed : float = 16.0
+
+#@export var flash_mat : ShaderMaterial
+
+var theta : float = 0.0
+@export_range(0,2*PI) var alpha: float = 0.0
+
+@export var bull_node : PackedScene
+
+@onready var gun := $Gun
+@onready var gun_2 := $Gun2
+#@onready var fire_sound = $FireSound
+
+
+var explosion : PackedScene = load(\"res://levels/effects/explosion_f.tscn\")
+
+var bullet_variant : int = 2
+
+signal take_hit
+signal slain
+
+func get_vector(angle):
+	theta = angle + alpha
+	return Vector2(cos(theta), sin(theta))
+
+func shoot(angle):
+	#fire_sound.r_play()
+	var bull = bull_node.instantiate()
+	var bull2 = bull_node.instantiate()
+	
+	bull.position = gun.global_position
+	bull.direction = get_vector(angle)
+	bull.set_property(bullet_variant)
+	
+	bull2.position = gun_2.global_position
+	bull2.direction = get_vector(angle)
+	bull2.set_property(bullet_variant)
+	
+	get_tree().current_scene.call_deferred(\"add_child\", bull)
+	get_tree().current_scene.call_deferred(\"add_child\", bull2)
+
+func _ready():
+	material.set_shader_parameter(\"flash\", false)
+
+#func _physics_process(delta: float) -> void:
+	#position += transform.y * speed * delta
+
+func explode():
+	var explosion_instance = explosion.instantiate() as Node2D
+	
+	explosion_instance.position = global_position
+	get_parent().get_parent().get_parent().get_parent().add_child(explosion_instance)
+
+
+func kill():
+	explode()
+	#slain.emit()
+	#print(\"slain emitted\")
+	#get_parent().remove_child(self)
+	#remove_child()
+	#if score != null:
+		#score.score = score_provide
+	#Global.temp_score += score_provide
+	Global.temp_score += score_provide
+	_remove()
+	slain.emit()
+
+
+func _remove():
+	queue_free()
+	#owner.remove_child(self)
+#func _on_body_entered(body):
+	#kill()
+
+func take_damage(amount):
+	var old_health = health
+	health -= amount
+	material.set_shader_parameter(\"flash\", true)
+	await get_tree().create_timer(Global.FLASH_DUR).timeout
+	material.set_shader_parameter(\"flash\", false)
+	take_hit.emit(old_health, health)
+	
+	if health <= 0:
+		health = 0
+		kill()
+
+#func _on_area_entered(area):
+	#take_damage(area.damage)
+
+
+func _on_hurt_box_area_entered(area):
+	
+	take_damage(area.damage)
+
+
+func _on_firing_speed_timeout():
+	shoot(theta)
+
+
+
+#func _on_take_hit():
+	#
+"
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tanho"]
 shader = ExtResource("1_djo78")
 shader_parameter/flash = false
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_cmh18"]
-radius = 8.64883
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_mp8px"]
 shader = ExtResource("1_djo78")
@@ -26,19 +132,18 @@ shader_parameter/flash = false
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_b3jbh"]
 size = Vector2(87, 102)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_meaay"]
-radius = 554.667
+[sub_resource type="CircleShape2D" id="CircleShape2D_v7g5i"]
+radius = 120.266
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_1fsan"]
-radius = 128.004
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnao3"]
+size = Vector2(720, 128)
 
 [node name="EnArchalon" type="Area2D" groups=["enemies"]]
-material = SubResource("ShaderMaterial_qhdl2")
+material = SubResource("ShaderMaterial_2dvtr")
 collision_layer = 2
 collision_mask = 0
-script = ExtResource("1_hefef")
-health = 840
-speed = 60.0
+script = SubResource("GDScript_dxmvc")
+health = 290
 bull_node = ExtResource("2_uqf72")
 
 [node name="body_albedo" type="Sprite2D" parent="."]
@@ -47,9 +152,10 @@ use_parent_material = true
 scale = Vector2(0.344828, 0.357143)
 texture = ExtResource("4_mjlnc")
 
-[node name="HitBox" type="CollisionShape2D" parent="."]
-scale = Vector2(1.2725, 3.33391)
-shape = SubResource("CircleShape2D_cmh18")
+[node name="HitBox" type="CollisionPolygon2D" parent="."]
+position = Vector2(0, -4)
+scale = Vector2(1.12227, 2.94032)
+polygon = PackedVector2Array(25.1473, -2.39958, 18.8605, 7.19875, 6.28684, 9.59834, 6.28684, -7.19875, -6.28684, -7.19875, -6.28684, 9.59834, -18.8605, 7.19875, -25.1473, -2.39958, -18.8605, -11.9979, 18.8605, -11.9979)
 
 [node name="HurtBox" type="Area2D" parent="."]
 material = SubResource("ShaderMaterial_mp8px")
@@ -60,9 +166,10 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_b3jbh")
 
 [node name="FiringSpeed" type="Timer" parent="."]
-wait_time = 0.05
+wait_time = 0.55
 
 [node name="FiringDuration" type="Timer" parent="."]
+wait_time = 2.0
 
 [node name="Gun" type="Marker2D" parent="."]
 position = Vector2(-38, -10)
@@ -70,9 +177,14 @@ rotation = 1.5708
 
 [node name="Gun2" type="Marker2D" parent="."]
 position = Vector2(38, -10)
-rotation = 1.5708
+rotation = 1.57079
+
+[node name="Gun3" type="Marker2D" parent="."]
+position = Vector2(0, 46)
+rotation = 1.57079
 
 [node name="temp" type="Label" parent="."]
+visible = false
 offset_left = -112.0
 offset_top = -8.0
 offset_right = -32.0
@@ -84,16 +196,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="RangeArea" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 unique_name_in_owner = true
-shape = SubResource("CircleShape2D_meaay")
+position = Vector2(0, 392)
+scale = Vector2(2.48, 3.4)
+shape = SubResource("CircleShape2D_v7g5i")
 
 [node name="ThresholdRange" type="Area2D" parent="."]
-visible = false
+collision_layer = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ThresholdRange"]
-shape = SubResource("CircleShape2D_1fsan")
+[node name="colice" type="CollisionShape2D" parent="ThresholdRange"]
+unique_name_in_owner = true
+position = Vector2(0, -80)
+shape = SubResource("RectangleShape2D_hnao3")
 
 [node name="StateMachine" type="Node2D" parent="."]
 script = ExtResource("3_i4sg0")
@@ -101,9 +218,10 @@ script = ExtResource("3_i4sg0")
 [node name="Idle" type="Node2D" parent="StateMachine"]
 script = ExtResource("4_jp07h")
 
-[node name="4Leaf" type="Node2D" parent="StateMachine"]
-script = ExtResource("5_se6s8")
+[node name="Lasers" type="Node2D" parent="StateMachine"]
+script = ExtResource("7_mefig")
 
 [connection signal="area_entered" from="HurtBox" to="." method="_on_hurt_box_area_entered"]
 [connection signal="timeout" from="FiringSpeed" to="." method="_on_firing_speed_timeout"]
 [connection signal="body_entered" from="RangeArea" to="StateMachine/Idle" method="_on_range_area_body_entered"]
+[connection signal="body_entered" from="ThresholdRange" to="StateMachine/Lasers" method="_on_threshold_range_body_entered"]

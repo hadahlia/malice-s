@@ -2,6 +2,7 @@ extends State
 
 @onready var collision = %CollisionShape2D
 
+
 var doggy_entered : bool = false:
 	set(value):
 		doggy_entered = value
@@ -13,4 +14,4 @@ func _on_range_area_body_entered(body):
 
 func transition():
 	if doggy_entered:
-		get_parent().change_state("4Leaf")
+		get_parent().change_state("Lasers")

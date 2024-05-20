@@ -6,7 +6,7 @@
 script = ExtResource("1_gaqgm")
 
 [node name="BinkTime" type="Timer" parent="."]
-wait_time = 0.15
+wait_time = 0.1
 
 [node name="Duration" type="Timer" parent="."]
 

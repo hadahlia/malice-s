@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://ccfebtor0ysc0"]
+
+[ext_resource type="PackedScene" uid="uid://xtqqrnfji63r" path="res://entity/enemy/archalon/en_archalon.tscn" id="1_wd2tv"]
+[ext_resource type="Script" path="res://entity/fleets/archalon_fleet.gd" id="2_secfc"]
+[ext_resource type="Shader" path="res://entity/fleets/beizal_flash.gdshader" id="3_phqs4"]
+
+[sub_resource type="Curve2D" id="Curve2D_mlsar"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, -6.2851, -74.5165, 6.2851, 74.5165, 104, 104, -6.2421, -71.3739, 6.2421, 71.3739, -16, 312, -1.6304, -84.0677, 1.6304, 84.0677, 136, 424, 4.7622, -84.1322, -4.7622, 84.1322, 8, 504, -31.6459, -80.1342, 31.6459, 80.1342, 128, 624, 22.8964, -61.1069, -22.8964, 61.1069, 24, 816, 0, 0, 0, 0, 13, 1170)
+}
+point_count = 8
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_miscx"]
+resource_local_to_scene = true
+shader = ExtResource("3_phqs4")
+shader_parameter/flash = true
+
+[node name="HeavyPath" type="Path2D"]
+curve = SubResource("Curve2D_mlsar")
+
+[node name="H_1" type="PathFollow2D" parent="."]
+rotates = false
+loop = false
+
+[node name="pivot" type="Node2D" parent="H_1"]
+script = ExtResource("2_secfc")
+speed = 59
+
+[node name="EnArchalon" parent="H_1/pivot" instance=ExtResource("1_wd2tv")]
+material = SubResource("ShaderMaterial_miscx")
+
+[node name="_Timer_261119" type="Timer" parent="H_1"]
+wait_time = 0.2
+one_shot = true

@@ -7,6 +7,7 @@ extends CharacterBody2D
 @export var heat_limit : int
 @export var heat_coeff : float = 0.55
 @export var Bullet : PackedScene = load("res://entity/projectile/moon_slice.tscn")
+@export var Nuke : PackedScene = load("res://entity/ika-ship/fusion_bomb.tscn")
 @export var multiplier : float
 
 @export var score_multiplier : int = 1
@@ -16,6 +17,7 @@ extends CharacterBody2D
 @onready var vent_delay = $VentDelay
 @onready var heat_bar = $HeatBar
 @onready var binker = $Binker
+@onready var bullet_eatr = $BulletEatr
 
 
 @onready var sprite_t := $SpriteT
@@ -58,7 +60,7 @@ func fire_0():
 	
 	#b1.set_color(bullet_type)
 	var heat_mul = heat * multiplier
-	b1.damage += heat_mul
+	b1.damage += heat_mul * 0.5
 	
 	#print("DAMAGE: ",b1.damage)
 
@@ -75,8 +77,8 @@ func devil_fire():
 	b2.scale = scale_var
 	b3.scale = scale_var
 	var heat_mul = heat * multiplier
-	b2.damage += heat_mul
-	b3.damage += heat_mul
+	b2.damage += heat_mul * 0.2
+	b3.damage += heat_mul * 0.2
 	
 func fire_lasers():
 	var l1 = Bullet.instantiate()
@@ -181,14 +183,25 @@ func _on_fire_cooldown_timeout():
 
 func hyperfusion_bomb():
 	heat_bar.heat = heat_limit
-	death() #lol
+	_canFire = false
+	#death() lol
+	var n1 = Nuke.instantiate()
+	#n1.bullet_freed.connect(_on_bullet_freed)
+	get_parent().add_child(n1)
+	
+	n1.transform = $Gun0.global_transform
+	death()
+
+func explodee():
+	var explosion_instance = explosion.instantiate() as Node2D
+	explosion_instance.global_position = global_position
+	get_parent().add_child(explosion_instance)
+	death()
 
 func death():
 	heat_bar.hide()
 	_canFire = false
-	var explosion_instance = explosion.instantiate() as Node2D
-	explosion_instance.global_position = global_position
-	get_parent().add_child(explosion_instance)
+	
 	hit.emit()
 	queue_free()
 
@@ -197,12 +210,12 @@ func _on_bullet_freed():
 		shot_count -= 1
 
 func _on_nexus_core_body_entered(body):
-	death()
+	explodee()
 
 
 func _on_nexus_core_area_entered(area):
 	if hitbox.is_visible():
-		death()
+		explodee()
 	else:
 		print("loser :3")
 		pass
@@ -219,6 +232,7 @@ func _invincibility_toggle():
 func _on_inv_timer_timeout():
 	print("inv end")
 	hitbox.show()
+	bullet_eatr.queue_free()
 
 
 #func _on_sprite_t_animation_finished():
@@ -228,3 +242,7 @@ func _on_inv_timer_timeout():
 func _on_vent_delay_timeout():
 	heat_bar.show()
 	vent = true
+
+
+func _on_bullet_eatr_area_entered(area):
+	area.queue_free()

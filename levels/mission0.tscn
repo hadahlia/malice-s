@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cqnj5lbqtyprd"]
+[gd_scene load_steps=23 format=3 uid="uid://cqnj5lbqtyprd"]
 
 [ext_resource type="Script" path="res://levels/god_script.gd" id="1_3n2wy"]
 [ext_resource type="PackedScene" uid="uid://c67dvisjejmey" path="res://levels/effects/void_1_bg.tscn" id="1_nne0f"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://58uwhr5waftp" path="res://levels/en_spawner.tscn" id="5_yfa6y"]
 [ext_resource type="AudioStream" uid="uid://bankufesgu5li" path="res://audio/poly/248839-bbe03917-e141-4474-8418-df7473073dd5.mp3" id="7_y8tca"]
 [ext_resource type="FontFile" uid="uid://bu3e7oy3n1peb" path="res://sprite/ui/BlackCapsRegular-wgA2.ttf" id="8_agg2q"]
+[ext_resource type="AudioStream" uid="uid://cg1bu7gs6ukvj" path="res://audio/music/fuck0.mp3" id="11_ema04"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_xbjq3"]
 line_spacing = 5.0
@@ -310,8 +311,9 @@ shape = SubResource("RectangleShape2D_4o3g6")
 
 [node name="kill_void" type="Area2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(0, -182)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 255
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="kill_void"]
@@ -331,9 +333,15 @@ scale = Vector2(0.5, 0.5)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_mvocl")
 
+[node name="BG" type="AudioStreamPlayer" parent="."]
+process_mode = 1
+stream = ExtResource("11_ema04")
+autoplay = true
+
 [connection signal="destroyed" from="." to="." method="_on_destroyed"]
 [connection signal="victory" from="." to="." method="_on_victory"]
 [connection signal="pressed" from="DeathScreen/VBoxContainer/MarginContainer/cont_btn" to="DeathScreen" method="_on_cont_btn_pressed"]
 [connection signal="pressed" from="DeathScreen/VBoxContainer/MarginContainer2/quit_btn2" to="DeathScreen" method="_on_quit_btn_2_pressed"]
 [connection signal="area_entered" from="kill_void" to="." method="_on_kill_void_area_entered"]
 [connection signal="timeout" from="RespawnTimer" to="." method="_on_respawn_timer_timeout"]
+[connection signal="finished" from="BG" to="." method="_on_bg_finished"]

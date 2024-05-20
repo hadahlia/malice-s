@@ -3,7 +3,7 @@ extends Area2D
 @export var texture_array : Array[Texture2D]
 
 @export var speed : int = 100
-var direction : Vector2 = Vector2.RIGHT
+var direction : Vector2 = Vector2.DOWN
 var bullet_variant : int = 0
 
 func _physics_process(delta):

@@ -13,6 +13,8 @@ var theta : float = 0.0
 
 @onready var gun := $Gun
 @onready var gun_2 := $Gun2
+#@onready var fire_sound = $FireSound
+
 
 var explosion : PackedScene = load("res://levels/effects/explosion_f.tscn")
 
@@ -26,6 +28,7 @@ func get_vector(angle):
 	return Vector2(cos(theta), sin(theta))
 
 func shoot(angle):
+	#fire_sound.r_play()
 	var bull = bull_node.instantiate()
 	var bull2 = bull_node.instantiate()
 	
@@ -43,13 +46,15 @@ func shoot(angle):
 func _ready():
 	material.set_shader_parameter("flash", false)
 
-func _physics_process(delta: float) -> void:
-	position += transform.y * speed * delta
+#func _physics_process(delta: float) -> void:
+	#position += transform.y * speed * delta
 
 func explode():
 	var explosion_instance = explosion.instantiate() as Node2D
-	explosion_instance.global_position = global_position
-	get_parent().add_child(explosion_instance)
+	
+	explosion_instance.position = global_position
+	get_parent().get_parent().get_parent().get_parent().add_child(explosion_instance)
+
 
 func kill():
 	explode()
@@ -74,10 +79,11 @@ func _remove():
 func take_damage(amount):
 	var old_health = health
 	health -= amount
-	take_hit.emit(old_health, health)
 	material.set_shader_parameter("flash", true)
 	await get_tree().create_timer(Global.FLASH_DUR).timeout
 	material.set_shader_parameter("flash", false)
+	take_hit.emit(old_health, health)
+	
 	if health <= 0:
 		health = 0
 		kill()
